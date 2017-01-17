@@ -39,4 +39,4 @@ h1.title 设置
         = f.number_field :counter_counter, class: 'weui-input', placeholder: '请输入服务窗口数量'
 
   .weui-btn-area
-    = f.submit '更新', class: 'weui-btn weui-btn_primary'
+    = f.submit '更新', class: 'weui-btn weui-btn_primary', data: { disable_with: '更新中...' }

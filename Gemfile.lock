@@ -1,3 +1,10 @@
+GIT
+  remote: https://github.com/rails/rails-ujs.git
+  revision: 9908be266a30380ea0811b7c97d91638dde74605
+  specs:
+    rails-ujs (0.0.1)
+      railties (>= 3.1)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -190,6 +197,7 @@ DEPENDENCIES
   pry-stack_explorer
   puma (~> 3.0)
   rails (~> 5.0.1)
+  rails-ujs!
   sass-rails (~> 5.0)
   slim-rails
   spring
