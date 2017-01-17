@@ -10,10 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117110356) do
+ActiveRecord::Schema.define(version: 20170117110732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "appointments", force: :cascade do |t|
+    t.date     "appoint_at"
+    t.integer  "business_category_id"
+    t.string   "id_number"
+    t.string   "phone_number"
+    t.string   "queue_number"
+    t.boolean  "expired",              default: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
+    t.index ["appoint_at"], name: "index_appointments_on_appoint_at", using: :btree
+    t.index ["business_category_id"], name: "index_appointments_on_business_category_id", using: :btree
+    t.index ["id_number"], name: "index_appointments_on_id_number", using: :btree
+  end
 
   create_table "business_categories", force: :cascade do |t|
     t.string  "prefix"
@@ -38,5 +52,6 @@ ActiveRecord::Schema.define(version: 20170117110356) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "appointments", "business_categories"
   add_foreign_key "business_counters", "business_categories"
 end
