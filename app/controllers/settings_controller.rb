@@ -6,13 +6,8 @@ class SettingsController < ApplicationController
   end
 
   def update
-    if @setting.update setting_params
-      flash[:success] = '更新成功'
-    else
-      flash[:error] = '更新失败'
-    end
-
-    redirect_to settings_path
+    @updated = @setting.update(setting_params)
+    render layout: false
   end
 
   private
