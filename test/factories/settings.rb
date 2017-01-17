@@ -1,11 +1,9 @@
 FactoryGirl.define do
   factory :setting do
-    trans_code "MyString"
-    inst_no "MyString"
-    term_no "MyString"
+    trans_code '694014'
+    inst_no '10101'
+    term_no 'ZZZD-0001'
     counter_counter 1
-    sync_interval 1
-    quota 1
     enable false
   end
 end

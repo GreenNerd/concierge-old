@@ -1,0 +1,42 @@
+h1.title 设置
+
+= form_for @setting, url: settings_path do |f|
+  .weui-cells
+    .weui-cell.weui-cell_switch
+      .weui-cell__bd 开启排号
+      .weui-cell__ft
+          label.weui-switch-cp for="enableSwitch"
+            = f.check_box :enable, class: 'weui-switch-cp__input', id: "enableSwitch"
+            .weui-switch-cp__box
+
+  .weui-cells__title 排号机设置
+  .weui-cells
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 交易号
+      .weui-cell__bd
+        = f.text_field :trans_code, class: 'weui-input', placeholder: '请输入交易号'
+
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 网点编号
+      .weui-cell__bd
+        = f.text_field :inst_no, class: 'weui-input', placeholder: '请输入网点编号'
+
+
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 终端编号
+      .weui-cell__bd
+        = f.text_field :term_no, class: 'weui-input', placeholder: '请输入终端编号'
+
+  .weui-cells__title 在线排号参数
+  .weui-cells
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 窗口数量
+      .weui-cell__bd
+        = f.number_field :counter_counter, class: 'weui-input', placeholder: '请输入服务窗口数量'
+
+  .weui-btn-area
+    =f.submit '更新', class: 'weui-btn weui-btn_primary'
