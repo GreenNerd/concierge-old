@@ -3,5 +3,5 @@ class BusinessCategory < ApplicationRecord
   validates :number, presence: true
   validates :name, presence: true
 
-  has_many :business_counters
+  has_many :business_counters, dependent: :delete_all
 end
