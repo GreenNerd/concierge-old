@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117104350) do
+ActiveRecord::Schema.define(version: 20170117110356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,6 +20,12 @@ ActiveRecord::Schema.define(version: 20170117104350) do
     t.integer "number"
     t.string  "name"
     t.string  "queue_number"
+  end
+
+  create_table "business_counters", force: :cascade do |t|
+    t.integer "business_category_id"
+    t.integer "number"
+    t.index ["business_category_id"], name: "index_business_counters_on_business_category_id", using: :btree
   end
 
   create_table "settings", force: :cascade do |t|
@@ -32,4 +38,5 @@ ActiveRecord::Schema.define(version: 20170117104350) do
     t.datetime "updated_at",      null: false
   end
 
+  add_foreign_key "business_counters", "business_categories"
 end
