@@ -1,4 +1,6 @@
 class SettingsController < ApplicationController
+  http_basic_authenticate_with name: 'admin', password: 'secret'
+
   before_action :set_current_setting
 
   def show
