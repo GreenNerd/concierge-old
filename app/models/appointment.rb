@@ -7,7 +7,31 @@ class Appointment < ApplicationRecord
 
   before_validation :upcase_id_number
 
+  validate :has_unexpired_appointment
+  validate :in_today
+  validate :in_limitation
+
   private
+
+  def has_unexpired_appointment
+    if Appointment.where("id_number = ? and expired = ?", id_number, false).count > 0
+      errors.add(:id_number, "you have unexpired appointment")
+    end
+  end
+
+  def in_today
+    if appoint_at < Date.today || appoint_at > 5.days.from_now
+      errors.add(:appoint_at, "your appoint is not in today")
+    end
+  end
+
+  def in_limitation
+    limitation = Setting.first&.limitation
+    finished = Appointment.where("appoint_at = ?", Date.today).count
+    if limitation - finished < 0
+      errors.add(:id_number, "the people number is reaching limitation")
+    end
+  end
 
   def upcase_id_number
     self.id_number = id_number&.upcase

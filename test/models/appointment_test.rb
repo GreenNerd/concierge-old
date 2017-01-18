@@ -3,11 +3,12 @@ require 'test_helper'
 class AppointmentTest < ActiveSupport::TestCase
   setup do
     @business_category = FactoryGirl.create :business_category
-    @appointment = FactoryGirl.create :appointment, business_category: @business_category
+    @setting = FactoryGirl.create :setting, limitation: 1000
+    @appointment = FactoryGirl.build :appointment, business_category: @business_category
   end
 
   test 'should create appointment' do
-    assert @appointment.persisted?
+    assert @appointment.valid?
   end
 
   test 'should save appointment without business_category' do
@@ -44,7 +45,7 @@ class AppointmentTest < ActiveSupport::TestCase
 
   test 'should save appointment with phone number' do
     @appointment.phone_number = nil
-    assert_not appointment.valid?
+    assert_not @appointment.valid?
   end
 
   test 'should save appointment with wrong phone number' do
@@ -53,5 +54,27 @@ class AppointmentTest < ActiveSupport::TestCase
 
     @appointment.phone_number = '131000011'
     assert_not @appointment.valid?
+  end
+
+  test 'should fail for already has a appointment' do
+    apo = FactoryGirl.create :appointment, business_category: @business_category
+    @appointment.id_number = apo.id_number
+    assert_not @appointment.valid?
+  end
+
+  test 'should fail for date is not in servie' do
+    @appointment.appoint_at = 6.days.from_now
+    assert_not @appointment.valid?
+  end
+
+  test "should fail for appointment count is reaching limitation" do
+    @setting.update(limitation: 1)
+    FactoryGirl.create :appointment, business_category: @business_category
+    assert_not @appointment.valid?
+  end
+
+  test 'should be valid when not reached limitation' do
+    @setting.update(limitation: 100)
+    assert @appointment.valid?
   end
 end
