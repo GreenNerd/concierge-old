@@ -23,6 +23,7 @@ class SettingsController < ApplicationController
                                     :inst_no,
                                     :term_no,
                                     :counter_counter,
-                                    :enable)
+                                    :enable,
+                                    :limitation)
   end
 end
