@@ -41,4 +41,17 @@ class AppointmentTest < ActiveSupport::TestCase
     assert @appointment.valid?
     assert new_id_number.upcase, @appointment.id_number
   end
+
+  test 'should save appointment with phone number' do
+    @appointment.phone_number = nil
+    assert_not appointment.valid?
+  end
+
+  test 'should save appointment with wrong phone number' do
+    @appointment.phone_number = '1310000111122'
+    assert_not @appointment.valid?
+
+    @appointment.phone_number = '131000011'
+    assert_not @appointment.valid?
+  end
 end
