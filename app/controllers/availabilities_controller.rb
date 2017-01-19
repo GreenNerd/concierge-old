@@ -9,6 +9,13 @@ class AvailabilitiesController < ApplicationController
     render layout: false
   end
 
+  def destroy
+    @availability = Availability.find params[:id]
+    @availability.destroy if @availability
+
+    render layout: false
+  end
+
   private
 
   def availability_params
