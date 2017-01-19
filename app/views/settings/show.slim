@@ -44,6 +44,11 @@ h1.title 设置
       .weui-cell__bd
         = f.number_field :limitation, class: 'weui-input', placeholder: '请输入每日预约限制'
 
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 排号机IP
+      .weui-cell__bd
+        = f.text_field :mip, class: 'weui-input', placeholder: '请输入排号机IP'
 
   .weui-btn-area
     = f.submit '更新', class: 'weui-btn weui-btn_primary', data: { disable_with: '更新中...' }

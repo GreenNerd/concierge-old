@@ -5,5 +5,6 @@ FactoryGirl.define do
     term_no 'ZZZD-0001'
     counter_counter 1
     enable false
+    mip 'price.cunchuhulian.cn'
   end
 end
