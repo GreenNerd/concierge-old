@@ -10,7 +10,6 @@ gem 'slim-rails'
 gem 'rails-ujs', git: 'https://github.com/rails/rails-ujs.git'
 gem 'webmock'
 gem 'rest-client'
-gem 'test-unit'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
