@@ -77,4 +77,14 @@ class AppointmentTest < ActiveSupport::TestCase
     @setting.update(limitation: 100)
     assert @appointment.valid?
   end
+
+  test 'should failed for post request is unreachable' do
+    @setting.update(mip: '127.0.0.1')
+    assert_not @appointment.valid?
+  end
+
+  test 'should succes for get response is 200' do
+    @setting.update(mip: 'www.baidu.com')
+    assert @appointment.valid?
+  end
 end
