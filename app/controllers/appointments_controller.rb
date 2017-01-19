@@ -17,6 +17,7 @@ class AppointmentsController < ApplicationController
 
   def show
     @appointment = Appointment.find_by(expired: false, id_number: params[:id_number])
+    redirect_to root_path unless @appointment
   end
 
   private
