@@ -28,7 +28,7 @@ class AvailabilityTest < ActiveSupport::TestCase
     assert_not another_availability.valid?
   end
 
-  test '#available_at?' do
+  test '.available_at?' do
     format_date = lambda do |date|
       date.strftime(Availability::DATE_FORMAT)
     end
@@ -50,5 +50,27 @@ class AvailabilityTest < ActiveSupport::TestCase
 
     # Blank
     assert_not Availability.available_at?(nil)
+  end
+
+  test '.next_available_dates' do
+    format_date = lambda do |date|
+      date.strftime(Availability::DATE_FORMAT)
+    end
+
+    friday = Date.new(2017, 1, 3)
+    saturday = Date.new(2017, 1, 4)
+
+    FactoryGirl.create :availability, available: false, effective_date: format_date.call(friday)
+    FactoryGirl.create :availability, available: true, effective_date: format_date.call(saturday)
+
+    available_dates = [
+      [2017, 1, 4],
+      [2017, 1, 6],
+      [2017, 1, 7],
+      [2017, 1, 8],
+      [2017, 1, 9],
+    ].map { |ary| Date.new(*ary) }
+
+    assert Availability.next_available_dates, available_dates
   end
 end

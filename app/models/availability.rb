@@ -10,6 +10,18 @@ class Availability < ApplicationRecord
     available? ? '班'.freeze : '休'.freeze
   end
 
+  def self.next_available_dates(days: 5)
+    dates = []
+    date = Date.today
+
+    until dates.length >= days
+      dates.push date if available_at?(date)
+      date = date.next_day
+    end
+
+    dates
+  end
+
   def self.available_at?(date)
     return false unless date.respond_to?(:strftime)
 
