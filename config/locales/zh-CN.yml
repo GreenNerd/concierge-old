@@ -1,0 +1,5 @@
+zh-CN:
+  activerecord:
+    attributes:
+      availability:
+        effective_date: 日期

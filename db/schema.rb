@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170117110732) do
+ActiveRecord::Schema.define(version: 20170119090959) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -27,6 +27,13 @@ ActiveRecord::Schema.define(version: 20170117110732) do
     t.index ["appoint_at"], name: "index_appointments_on_appoint_at", using: :btree
     t.index ["business_category_id"], name: "index_appointments_on_business_category_id", using: :btree
     t.index ["id_number"], name: "index_appointments_on_id_number", using: :btree
+  end
+
+  create_table "availabilities", force: :cascade do |t|
+    t.boolean "available"
+    t.string  "effective_date"
+    t.index ["available"], name: "index_availabilities_on_available", using: :btree
+    t.index ["effective_date"], name: "index_availabilities_on_effective_date", using: :btree
   end
 
   create_table "business_categories", force: :cascade do |t|
