@@ -22,6 +22,12 @@ class AvailabilityTest < ActiveSupport::TestCase
     assert_not @availability.valid?
   end
 
+  test 'should be invalid with repeated effective_date' do
+    @availability.save
+    another_availability = FactoryGirl.build :availability, effective_date: @availability.effective_date
+    assert_not another_availability.valid?
+  end
+
   test '#available_at?' do
     format_date = lambda do |date|
       date.strftime(Availability::DATE_FORMAT)

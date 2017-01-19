@@ -2,7 +2,7 @@ class Availability < ApplicationRecord
   DATE_FORMAT = '%m-%d'.freeze
 
   validates_inclusion_of :available, in: [true, false]
-  validates :effective_date, presence: true
+  validates :effective_date, presence: true, uniqueness: true
 
   before_validation :format_effective_date
 
