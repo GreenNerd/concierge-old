@@ -6,3 +6,9 @@ h1.title {
   text-align: center;
   padding: 1rem;
 }
+
+.weui-badge {
+  &.weui-badge-success {
+    background-color: #09BB07;
+  }
+}

@@ -6,7 +6,10 @@ h1.title 放假调休设置
     = link_to availability_path(availability), class: 'weui-cell weui-cell_access', method: :delete, data: { confirm: "确认删除 #{availability.effective_date}（#{availability.human_available}）" }, remote: true do
       .weui-cell__bd
         span style='vertical-align: middle' = availability.effective_date
-        span.weui-badge style="margin-left: 5px;" = availability.human_available
+        - if availability.available
+          span.weui-badge.weui-badge-success style="margin-left: 5px;" = availability.human_available
+        - else
+          span.weui-badge style="margin-left: 5px;" = availability.human_available
       .weui-cell__ft
 
 .weui-cells__title 新增放假调休
