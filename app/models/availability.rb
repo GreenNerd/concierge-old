@@ -6,6 +6,10 @@ class Availability < ApplicationRecord
 
   before_validation :format_effective_date
 
+  def human_available
+    available? ? '班'.freeze : '休'.freeze
+  end
+
   def self.available_at?(date)
     return false unless date.respond_to?(:strftime)
 
