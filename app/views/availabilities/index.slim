@@ -1,0 +1,10 @@
+h1.title 放假调休设置
+
+.weui-cells__title 状态
+.weui-cells
+  - @availabilities.each do |availability|
+    = link_to 'javascript:;', class: 'weui-cell weui-cell_access' do
+      .weui-cell__bd
+        span style='vertical-align: middle' = availability.effective_date
+        span.weui-badge style="margin-left: 5px;" = availability.human_available
+      .weui-cell__ft
