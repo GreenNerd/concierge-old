@@ -1,5 +1,5 @@
 class Appointment < ApplicationRecord
-  validates :id_number, presence: true, format: { with: /\A[1-9][0-9]{16}[0-9X]\Z/ }
+  validates :id_number, presence: true, format: { with: /\A[1-9]\d{16}[0-9X]\Z/ }
 
   validates :phone_number, presence: true, format: { with: /\A1\d{10}\Z/ }
 
