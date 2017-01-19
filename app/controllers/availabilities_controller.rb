@@ -1,6 +1,8 @@
 class AvailabilitiesController < ApplicationController
   http_basic_authenticate_with name: 'admin', password: 'secret'
 
+  layout 'admin'.freeze
+
   def index
     @availabilities = Availability.order(effective_date: :asc)
     @availability = Availability.new

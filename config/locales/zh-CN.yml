@@ -3,3 +3,9 @@ zh-CN:
     attributes:
       availability:
         effective_date: 日期
+      appointment:
+        business_category_id: 业务类型
+        business_category: 业务类型
+        appoint_at: 预约日期
+        id_number: 身份证号
+        phone_number: 手机号

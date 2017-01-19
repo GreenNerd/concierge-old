@@ -1,0 +1,10 @@
+<%- if @appointment.persisted? %>
+  weui.toast('预约成功', {
+    duration: 1000,
+    callback: function(){ 
+      window.location = '<%= appointment_path(@appointment.to_param)%>'
+    }
+  });
+<%- else %>
+  weui.topTips('<%= @appointment.errors.full_messages.join('，'.freeze) %>');
+<%- end %>

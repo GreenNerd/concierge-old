@@ -5,6 +5,10 @@ class Appointment < ApplicationRecord
 
   before_validation :upcase_id_number
 
+  def to_param
+    id_number
+  end
+
   private
 
   def upcase_id_number

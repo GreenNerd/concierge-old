@@ -1,0 +1,29 @@
+h3.title 预约排号
+
+= form_for @appointment, url: appointments_path, remote: true, html: { class: 'appointment-form' } do |f|
+  .weui-cells__title 预约办理日期
+  .weui-cells
+    .weui-cell.weui-cell_select
+      .weui-cell__bd
+        = f.select :appoint_at, Availability.next_available_dates.collect { |day| ["#{day.to_s(:db)} #{I18n.l(day, format: '%A')}", day.to_s(:db)] }, {}, class: 'weui-select'
+
+  .weui-cells__title 业务类型
+  .weui-cells
+    .weui-cell.weui-cell_select
+      .weui-cell__bd
+        = f.select :business_category_id, BusinessCategory.all.collect { |bc| [bc.name, bc.id] }, {}, class: 'weui-select'
+
+  .weui-cells__title 预约人身份证
+  .weui-cells
+    .weui-cell
+      .weui-cell__bd
+        = f.text_field :id_number, class: 'weui-input', placeholder: '请输入身份证号码'
+
+  .weui-cells__title 手机号码
+  .weui-cells
+    .weui-cell
+      .weui-cell__bd
+        = f.text_field :phone_number, class: 'weui-input', placeholder: '请输入手机号码'
+
+  .weui-btn-area
+    = f.submit '预约', class: 'weui-btn weui-btn_primary', data: { disable_with: '预约中...' }

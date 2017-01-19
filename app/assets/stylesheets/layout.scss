@@ -1,14 +1,63 @@
+$border-color: #d9d9d9;
+
 body {
   background-color: #f8f8f8;
 }
 
-h1.title {
+.title {
   text-align: center;
   padding: 1rem;
+  color: #2b2b2b;
 }
 
 .weui-badge {
   &.weui-badge-success {
     background-color: #09BB07;
   }
+}
+
+.header {
+  align-items: center;
+  padding: .5em 1em;
+  border-bottom: 1px solid $border-color;
+  background-color: #fff;
+
+  img {
+    height: 2em;
+    padding-right: .5em;
+  }
+
+  .header-text {
+    small {
+      color: #888;
+    }
+  }
+}
+
+.list-groups {
+  border-top: 1px solid $border-color;
+
+  .list-group-item {
+    padding: 1.3em .5em .5em;
+    border-bottom: 1px solid $border-color;
+    align-items: center;
+
+    .list-group-item-label {
+      text-align: left;
+      padding-left: .5em;
+      color: #999;
+      font-size: .9em;
+    }
+
+    .list-group-item-value {
+      text-align: right;
+      padding-right: .5em;
+      word-break: break-all;
+      word-wrap: break-word;
+    }
+  }
+}
+
+.appointment {
+  background-color: #fff;
 }
