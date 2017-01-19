@@ -5,6 +5,33 @@ class AppointmentTest < ActiveSupport::TestCase
     @business_category = FactoryGirl.create :business_category
     @setting = FactoryGirl.create :setting, limitation: 1000
     @appointment = FactoryGirl.build :appointment, business_category: @business_category
+
+    xml_str = <<-EOF
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <Package>
+        <TranCode>#{Setting.first.trans_code}</TranCode>
+        <InstNo>#{Setting.first.inst_no}</InstNo>
+        <BizType>#{@business_category.number}</BizType>
+        <TermNo>#{Setting.first.term_no}</TermNo>
+      </Package>
+    EOF
+    xml_res = <<-EOF
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <Package>
+        <InstNo>10101</InstNo>
+        <QueueNumber>A001</QueueNumber>
+        <SerialName>综合业务</SerialName>
+        <ServCounter>1,2</ServCounter>
+        <QueueNum>6</QueueNum>
+        <RspCode>0</RspCode>
+        <RspMsg>取号成功</RspMsg>
+      </Package>
+    EOF
+
+    WebMock.stub_request(:post, "http://192.168.18.88:8080/QueueServer/1.0/Services/createNumber").
+      with(body: xml_str, headers: {"Content-Type" => 'application/xml'}).
+      to_return(body: xml_res)
+
   end
 
   test 'should create appointment' do
@@ -79,12 +106,11 @@ class AppointmentTest < ActiveSupport::TestCase
   end
 
   test 'should failed for post request is unreachable' do
-    @setting.update(mip: '127.0.0.1')
+    @setting.update(mip: '192.168.11.11')
     assert_not @appointment.valid?
   end
 
-  test 'should succes for get response is 200' do
-    @setting.update(mip: 'www.baidu.com')
+  test 'should succes for default post' do
     assert @appointment.valid?
   end
 end

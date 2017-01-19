@@ -1,10 +1,3 @@
-require 'webmock'
-require 'rest-client'
-require 'nokogiri'
-include WebMock::API
-WebMock.enable!
-WebMock.allow_net_connect!
-
 class Appointment < ApplicationRecord
   validates :id_number, presence: true, format: { with: /\A[1-9][0-9]{16}[0-9X]\Z/ }
 
@@ -42,35 +35,17 @@ class Appointment < ApplicationRecord
   end
 
   def get_appointment_from_machine
-    s = Setting.first
-    if s.mip && self.business_category.present?
-      uri = 'http://' + s.mip
-      xml_str = <<-EOF
-        <?xml version="1.0" encoding="UTF-8" ?>
-        <Package>
-          <TranCode>#{s.trans_code}</TranCode>
-          <InstNo>#{s.inst_no}</InstNo>
-          <BizType>#{self.business_category.number}</BizType>
-          <TermNo>#{s.term_no}</TermNo>
-        </Package>
-      EOF
-      xml_data = Nokogiri::XML(xml_str)
-
-      begin
-        # RestClient.post s.mip, xml_data, :content_type => 'application/xml' { |response, request, result|
-        RestClient.get s.mip  { |response, request, result|
-          case response.code
-          when 200
-            response
-          else
-            errors.add(:id_number, "failed to get appointment from machine")
-          end
-        }
-      rescue Exception
-        errors.add(:id_number, "failed to get appointment from machine")
-      end
+    res = MachineService.new({
+      trans_code: Setting.first.trans_code,
+      inst_no: Setting.first.inst_no,
+      biz_type: self.business_category.number,
+      term_no: Setting.frist.term_no
+    }).appoint
+    if !res
+      errors.add(:id_number, "could not get data from appoint machine")
     else
-      errors.add(:id_number, "failed to get appointment from machine")
+      self.business_category.queue_number = res[:QueueNumber]
+      self.queue_number = res[:QueueNumber]
     end
   end
 
