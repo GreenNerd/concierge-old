@@ -1,0 +1,33 @@
+h3.title 您的预约
+
+.list-groups.appointment
+  .weui-flex.list-group-item
+    .weui-flex__item
+      span.list-group-item-label 预约办理日期
+    .weui-flex__item
+      span.list-group-item-value= @appointment.appoint_at
+  .weui-flex.list-group-item
+    .weui-flex__item
+      span.list-group-item-label 预约人身份证
+    .weui-flex__item
+      span.list-group-item-value= @appointment.id_number
+  .weui-flex.list-group-item
+    .weui-flex__item
+      span.list-group-item-label 手机号码
+    .weui-flex__item
+      span.list-group-item-value= @appointment.phone_number
+  .weui-flex.list-group-item
+    .weui-flex__item
+      span.list-group-item-label 业务种类
+    .weui-flex__item
+      span.list-group-item-value= "#{@appointment.business_category.prefix} #{@appointment.business_category.name}"
+  .weui-flex.list-group-item
+    .weui-flex__item
+      span.list-group-item-label 您的号码
+    .weui-flex__item
+      span.list-group-item-value= @appointment.queue_number
+  .weui-flex.list-group-item
+    .weui-flex__item
+      span.list-group-item-label 业务办理窗口
+    .weui-flex__item
+      span.list-group-item-value= @appointment.business_category.business_counters.pluck(:number).join('、')
