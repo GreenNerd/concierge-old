@@ -35,17 +35,21 @@ class Appointment < ApplicationRecord
   end
 
   def get_appointment_from_machine
-    res = MachineService.new({
-      trans_code: Setting.first.trans_code,
-      inst_no: Setting.first.inst_no,
-      biz_type: self.business_category.number,
-      term_no: Setting.frist.term_no
-    }).appoint
-    if !res
-      errors.add(:id_number, "could not get data from appoint machine")
+    if self.business_category.present? && Setting.first.present?
+      res = MachineService.new({
+        trans_code: Setting.first.trans_code,
+        inst_no: Setting.first.inst_no,
+        biz_type: self.business_category.number,
+        term_no: Setting.first.term_no
+      }).appoint
+      if !res
+        errors.add(:id_number, "could not get data from appoint machine")
+      else
+        self.business_category.queue_number = res[:QueueNumber]
+        self.queue_number = res[:QueueNumber]
+      end
     else
-      self.business_category.queue_number = res[:QueueNumber]
-      self.queue_number = res[:QueueNumber]
+      errors.add(:id_number, "could not get data from appoint machine")
     end
   end
 

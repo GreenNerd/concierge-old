@@ -21,16 +21,14 @@ class MachineService
     EOF
     url = 'http://' + Setting.first.mip + ":8080/QueueServer/1.0/Services/createNumber"
     begin
-      RestClient.post url, xml_str, :content_type => 'application/xml' {|response, request, result|
-        case response.code
-        when 200
-          Hash.from_xml result
-        else
-          false
-        end
-      }
-    resuce
-      false
+      res = RestClient.post url, xml_str, content_type: :xml
+    rescue Exception
+      return false
+    end
+    if res.code == 200
+      return Hash.from_xml(res.body)
+    else
+      return false
     end
   end
 end

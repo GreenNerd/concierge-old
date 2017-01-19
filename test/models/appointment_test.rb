@@ -111,6 +111,7 @@ class AppointmentTest < ActiveSupport::TestCase
   end
 
   test 'should succes for default post' do
+    @business_category.update(number: 1)
     assert @appointment.valid?
   end
 end
