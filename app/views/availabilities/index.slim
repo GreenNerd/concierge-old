@@ -12,8 +12,8 @@ h1.title 放假调休设置
           span.weui-badge style="margin-left: 5px;" = availability.human_available
       .weui-cell__ft
 
-.weui-cells__title 新增放假调休
 = form_for @availability, url: availabilities_url, remote: true, html: { class: 'js-availability-form' } do |f|
+  .weui-cells__title 新增放假调休
   .weui-cells
     .weui-cell
       .weui-cell__hd
