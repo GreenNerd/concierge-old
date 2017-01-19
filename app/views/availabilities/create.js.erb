@@ -1,6 +1,8 @@
 <%- if @availability.persisted? %>
-  weui.toast('添加成功', 1500);
-  window.location.reload();
+  weui.toast('添加成功', {
+    duration: 1000,
+    callback: function(){ window.location.reload(); }
+  });
 <%- else %>
   weui.topTips('<%= @availability.errors.full_messages.join('，'.freeze) %>');
 <%- end %>
