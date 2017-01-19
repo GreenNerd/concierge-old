@@ -1,8 +1,22 @@
 class Availability < ApplicationRecord
+  DATE_FORMAT = '%m-%d'.freeze
+
   validates_inclusion_of :available, in: [true, false]
   validates :effective_date, presence: true
 
   before_validation :format_effective_date
+
+  def self.available_at?(date)
+    return false unless date.respond_to?(:strftime)
+
+    availability = find_by(effective_date: date.strftime(DATE_FORMAT))
+
+    if availability
+      availability.available?
+    else
+      date.on_weekday?
+    end
+  end
 
   private
 
@@ -13,7 +27,7 @@ class Availability < ApplicationRecord
       month, day = effective_date.split(/-/).map(&:to_i)
       self.effective_date = begin
                               Date.new(1, month, day)
-                                  .strftime('%m-%d'.freeze)
+                                  .strftime(DATE_FORMAT)
                             rescue
                               nil
                             end
