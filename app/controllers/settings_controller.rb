@@ -24,6 +24,7 @@ class SettingsController < ApplicationController
                                     :term_no,
                                     :counter_counter,
                                     :enable,
+                                    :mip,
                                     :limitation)
   end
 end

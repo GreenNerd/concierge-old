@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://ruby.taobao.org'
 
 gem 'rails', '~> 5.0.1'
 gem 'pg', '~> 0.18'
@@ -8,6 +8,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'slim-rails'
 gem 'rails-ujs', git: 'https://github.com/rails/rails-ujs.git'
+gem 'webmock'
+gem 'rest-client'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
