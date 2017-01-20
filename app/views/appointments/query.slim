@@ -1,0 +1,15 @@
+h3.title 预约查询
+
+= form_tag query_appointment_path, remote: true, method: :get do
+  .weui-cells__title 您要查询的身份证号码：
+  .weui-cells
+    .weui-cell
+      .weui-cell__bd
+        = text_field_tag :query, nil, class: 'weui-input', placeholder: '请输入'
+
+  .weui-btn-area
+    = submit_tag '查询', class: 'weui-btn weui-btn_primary', data: { disable_with: '查询中...' }
+
+.weui-footer.weui-footer_fixed-bottom
+  p.weui-footer__links
+    = link_to '在线预约', new_appointment_path, class: 'weui-footer__link'

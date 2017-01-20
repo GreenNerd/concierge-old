@@ -1,0 +1,10 @@
+<%- if @appointment %>
+  weui.toast('查询成功', {
+    duration: 1000,
+    callback: function(){ 
+      window.location = '<%= appointment_path(@appointment.to_param)%>'
+    }
+  });
+<%- else %>
+  weui.topTips('没有查询到结果，请检查输入是否正确或点击下方在线预约取号', 3000);
+<%- end %>

@@ -1,6 +1,6 @@
 h3.title 预约排号
 
-= form_for @appointment, url: appointments_path, remote: true, html: { class: 'appointment-form' } do |f|
+= form_for @appointment, url: appointments_path, remote: true do |f|
   .weui-cells__title 预约办理日期
   .weui-cells
     .weui-cell.weui-cell_select

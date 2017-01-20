@@ -22,6 +22,16 @@ class AppointmentsController < ApplicationController
     redirect_to root_path unless @appointment
   end
 
+  def query
+    respond_to do |format|
+      format.html
+      format.js do
+        @appointment = Appointment.find_by(expired: false, id_number: params[:query])
+        render layout: false
+      end
+    end
+  end
+
   private
 
   def appointment_params

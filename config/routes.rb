@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'appointments/query' => 'appointments#query', as: :query_appointment
   resources :appointments, param: :id_number, only: [:new, :create, :show, :index]
 
   resource :settings, only: [:show, :update]
