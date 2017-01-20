@@ -1,4 +1,3 @@
-require 'nokogiri'
 require 'rest-client'
 
 class MachineService
@@ -9,7 +8,7 @@ class MachineService
   end
 
   def create_number(biz_type)
-    payload = pack_payload(tran_code: @tran_code,
+    payload = pack_payload(tran_code: @trans_code,
                            inst_no: @inst_no,
                            biz_type: biz_type,
                            term_no: @term_no)
@@ -23,6 +22,49 @@ class MachineService
         resp_hsh = Hash.from_xml(resp.body)
                        .deep_transform_keys { |key| key.to_s.underscore.to_sym }
 
+        return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
+      end
+    rescue
+      nil
+    end
+  end
+
+  # get the the total of appointment number of the day
+  def number_count(biz_type)
+    payload = pack_payload(tran_code: @trans_code,
+                           biz_type: biz_type,
+                           term_no: @term_no)
+
+    url = "#{Setting.instance.mip}/QueueServer/1.0/Services/numbercount"
+
+    begin
+      resp = RestClient.post url, payload, content_type: :xml
+
+      if resp.code == 200
+        resp_hsh = Hash.from_xml(resp.body)
+                       .deep_transform_keys { |key| key.to_s.underscore.to_sym }
+        return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
+      end
+    rescue
+      nil
+    end
+  end
+
+  # get the service terminal serving number
+  def serving_number(biz_type, serv_counter)
+    payload = pack_payload(tran_code: @trans_code,
+                           biz_type: biz_type,
+                           serv_counter: serv_counter,
+                           term_no: @term_no)
+
+    url = "#{Setting.instance.mip}/QueueServer/1.0/Services/servingnumber"
+
+    begin
+      resp = RestClient.post url, payload, content_type: :xml
+
+      if resp.code == 200
+        resp_hsh = Hash.from_xml(resp.body)
+                       .deep_transform_keys { |key| key.to_s.underscore.to_sym }
         return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
       end
     rescue
