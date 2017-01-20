@@ -1,7 +1,14 @@
 $border-color: #d9d9d9;
 
+html {
+  height: 100%;
+}
+
 body {
   background-color: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .title {
@@ -60,4 +67,34 @@ body {
 
 .appointment {
   background-color: #fff;
+}
+
+// appointments#index
+.operations-area-wrap {
+  flex-grow: 1;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  padding-bottom: 2em;
+  background-color: #fff;
+
+  .operations-area {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    .appointments-count {
+      margin-top: 1.5em;
+      text-align: center;
+      color: #888;
+
+      span {
+        color: #09BB07;
+      }
+    }
+  }
+}
+
+.weui-btn_huge {
+  padding: 2em;
 }

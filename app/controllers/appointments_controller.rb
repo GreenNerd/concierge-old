@@ -1,5 +1,8 @@
 class AppointmentsController < ApplicationController
-  before_action :find_appointment, only: [:new]
+  before_action :find_appointment, only: [:new, :index]
+
+  def index
+  end
 
   def new
     @appointment = Appointment.new
