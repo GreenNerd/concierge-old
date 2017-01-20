@@ -21,7 +21,7 @@ class SettingsController < ApplicationController
   end
 
   def setting_params
-    params.require(:setting).permit(:trans_code,
+    params.require(:setting).permit(:tran_code,
                                     :inst_no,
                                     :term_no,
                                     :counter_counter,

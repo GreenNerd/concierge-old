@@ -1,15 +1,17 @@
 class Setting < ApplicationRecord
-  cattr_accessor :instance do
-    first || create
-  end
-
   cattr_accessor :sync_job
   cattr_accessor :appointment_reset_job
 
-  after_save_commit :set_or_update_sync_job, if: :sync_interval_changed?
-  after_save_commit :set_or_update_appointment_reset_job, if: :appoint_begin_at_changed?
+  after_update_commit :set_or_update_sync_job, if: :sync_interval_changed?
+  after_update_commit :set_or_update_appointment_reset_job, if: :appoint_begin_at_changed?
+
+  def self.instance
+    first || create
+  end
 
   def set_or_update_sync_job
+    return unless avoid_scheduler?
+
     sync_job&.unschedule
 
     if sync_interval.present?
@@ -20,6 +22,8 @@ class Setting < ApplicationRecord
   end
 
   def set_or_update_appoint_job
+    return unless avoid_scheduler?
+
     appointment_reset_job&.unschedule
 
     if appoint_begin_at.present?
@@ -30,5 +34,9 @@ class Setting < ApplicationRecord
     elsif sync_job
       self.appointment_reset_job = nil
     end
+  end
+
+  def avoid_scheduler?
+    Rails.env.test? || defined?(Rails::Console)
   end
 end

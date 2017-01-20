@@ -3,7 +3,7 @@ require 'test_helper'
 class AppointmentTest < ActiveSupport::TestCase
   setup do
     @business_category = FactoryGirl.create :business_category
-    @setting = FactoryGirl.create :setting, limitation: 1000
+    FactoryGirl.create :setting, limitation: 1000
     @appointment = FactoryGirl.build :appointment, business_category: @business_category
 
     xml_res = <<-EOF
@@ -85,13 +85,13 @@ class AppointmentTest < ActiveSupport::TestCase
   end
 
   test 'should fail for reached limitation' do
-    @setting.update(limitation: 1)
+    Setting.instance.update(limitation: 1)
     FactoryGirl.create :appointment, business_category: @business_category
     assert_not @appointment.valid?
   end
 
   test 'should be valid when not reached limitation' do
-    @setting.update(limitation: 100)
+    Setting.instance.update(limitation: 100)
     assert @appointment.valid?
   end
 
