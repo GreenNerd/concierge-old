@@ -6,15 +6,6 @@ class AppointmentTest < ActiveSupport::TestCase
     @setting = FactoryGirl.create :setting, limitation: 1000
     @appointment = FactoryGirl.build :appointment, business_category: @business_category
 
-    xml_str = <<-EOF
-      <?xml version="1.0" encoding="UTF-8" ?>
-      <Package>
-        <TranCode>#{Setting.instance.trans_code}</TranCode>
-        <InstNo>#{Setting.instance.inst_no}</InstNo>
-        <BizType>#{@business_category.number}</BizType>
-        <TermNo>#{Setting.instance.term_no}</TermNo>
-      </Package>
-    EOF
     xml_res = <<-EOF
       <?xml version="1.0" encoding="UTF-8" ?>
       <Package>
@@ -28,10 +19,9 @@ class AppointmentTest < ActiveSupport::TestCase
       </Package>
     EOF
 
-    WebMock.stub_request(:post, "http://192.168.18.88:8080/QueueServer/1.0/Services/createNumber").
-      with(body: xml_str, headers: {"Content-Type" => 'application/xml'}).
-      to_return(body: xml_res)
-
+    WebMock
+      .stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber")
+      .to_return(body: xml_res)
   end
 
   test 'should create appointment' do
@@ -94,7 +84,7 @@ class AppointmentTest < ActiveSupport::TestCase
     assert_not @appointment.valid?
   end
 
-  test "should fail for appointment count is reaching limitation" do
+  test 'should fail for reached limitation' do
     @setting.update(limitation: 1)
     FactoryGirl.create :appointment, business_category: @business_category
     assert_not @appointment.valid?
@@ -105,8 +95,20 @@ class AppointmentTest < ActiveSupport::TestCase
     assert @appointment.valid?
   end
 
-  test 'should failed for post request is unreachable' do
-    @setting.update(mip: '192.168.11.11')
+  test 'should failed when reserve failed' do
+    failed_xml = <<-EOF
+      <?xml version="1.0" encoding="UTF-8" ?>
+      <Package>
+        <InstNo>10101</InstNo>
+        <RspCode>100</RspCode>
+        <RspMsg>取号失败</RspMsg>
+      </Package>
+    EOF
+
+    WebMock
+      .stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber")
+      .to_return(body: failed_xml)
+
     assert_not @appointment.save
   end
 

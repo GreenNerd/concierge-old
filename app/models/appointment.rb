@@ -11,6 +11,7 @@ class Appointment < ApplicationRecord
 
   before_validation :upcase_id_number
   before_create :reserve
+  after_create_commit :update_queue_number_of_business_category
 
   def to_param
     id_number
@@ -41,22 +42,21 @@ class Appointment < ApplicationRecord
   end
 
   def reserve
-    res = MachineService.new({
-      trans_code: Setting.instance.trans_code,
-      inst_no: Setting.instance.inst_no,
-      biz_type: self.business_category.number,
-      term_no: Setting.instance.term_no
-    }).appoint
-    if !res
+    res = MachineService.new.create_number(business_category.number)
+
+    if res
+      self.queue_number = res[:queue_number]
+    else
       errors.add(:base, :reservation_failed)
       throw :abort
-    else
-      self.business_category.queue_number = res[:QueueNumber]
-      self.queue_number = res[:QueueNumber]
     end
   end
 
   def upcase_id_number
     self.id_number = id_number&.upcase
+  end
+
+  def update_queue_number_of_business_category
+    business_category.update queue_number: queue_number
   end
 end

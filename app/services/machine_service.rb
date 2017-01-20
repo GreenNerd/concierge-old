@@ -2,33 +2,38 @@ require 'nokogiri'
 require 'rest-client'
 
 class MachineService
-  def initialize(params)
-    @TranCode = params[:trans_code]
-    @InstNo = params[:inst_no]
-    @BizType = params[:biz_type]
-    @TermNo = params[:term_no]
+  def initialize
+    @trans_code = Setting.instance.trans_code
+    @inst_no = Setting.instance.inst_no
+    @term_no = Setting.instance.term_no
   end
 
-  def appoint
-    xml_str = <<-EOF
-      <?xml version="1.0" encoding="UTF-8" ?>
-      <Package>
-        <TranCode>#{@TranCode}</TranCode>
-        <InstNo>#{@InstNo}</InstNo>
-        <BizType>#{@BizType}</BizType>
-        <TermNo>#{@TermNo}</TermNo>
-      </Package>
-    EOF
-    url = 'http://' + Setting.instance.mip + ":8080/QueueServer/1.0/Services/createNumber"
+  def create_number(biz_type)
+    payload = pack_payload(tran_code: @tran_code,
+                           inst_no: @inst_no,
+                           biz_type: biz_type,
+                           term_no: @term_no)
+
+    url = "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber"
+
     begin
-      res = RestClient.post url, xml_str, content_type: :xml
-    rescue Exception
-      return false
+      resp = RestClient.post url, payload, content_type: :xml
+
+      if resp.code == 200
+        resp_hsh = Hash.from_xml(resp.body)
+                       .deep_transform_keys { |key| key.to_s.underscore.to_sym }
+
+        return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
+      end
+    rescue
+      nil
     end
-    if res.code == 200
-      return Hash.from_xml(res.body)
-    else
-      return false
-    end
+  end
+
+  private
+
+  def pack_payload(hsh)
+    hsh.transform_keys { |key| key.to_s.camelize }.to_xml(root: :Package,
+                                                          skip_types: true)
   end
 end
