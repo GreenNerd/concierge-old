@@ -41,6 +41,17 @@ class MachineService
     get_post_result(url, payload)
   end
 
+  # get the passed appointment number the day
+  def pass_count(biz_type)
+    payload = pack_payload(tran_code: @tran_code,
+                           biz_type: biz_type,
+                           term_no: @term_no)
+
+    url = "#{Setting.instance.mip}/QueueServer/1.0/Services/passcount"
+
+    get_post_result(url, payload)
+  end
+
   private
 
   def get_post_result(url, payload)
