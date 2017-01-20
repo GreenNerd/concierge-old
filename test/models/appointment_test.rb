@@ -90,7 +90,7 @@ class AppointmentTest < ActiveSupport::TestCase
   end
 
   test 'should fail for date is not in servie' do
-    @appointment.appoint_at = 6.days.from_now
+    @appointment.appoint_at = 1.day.ago
     assert_not @appointment.valid?
   end
 
@@ -107,7 +107,7 @@ class AppointmentTest < ActiveSupport::TestCase
 
   test 'should failed for post request is unreachable' do
     @setting.update(mip: '192.168.11.11')
-    assert_not @appointment.valid?
+    assert_not @appointment.save
   end
 
   test 'should succes for default post' do
