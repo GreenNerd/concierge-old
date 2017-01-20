@@ -50,7 +50,7 @@ ActiveRecord::Schema.define(version: 20170120042946) do
   end
 
   create_table "settings", force: :cascade do |t|
-    t.string   "trans_code"
+    t.string   "tran_code"
     t.string   "inst_no"
     t.string   "term_no"
     t.integer  "counter_counter"
