@@ -16,7 +16,6 @@ class MachineService
     url = "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber"
 
     get_post_result(url, payload)
-    end
   end
 
   # get the the total of appointment number of the day
