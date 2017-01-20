@@ -50,5 +50,19 @@ h1.title 设置
       .weui-cell__bd
         = f.text_field :mip, class: 'weui-input', placeholder: '请输入排号机IP'
 
+  .weui-cells__title 同步设置
+  .weui-cells
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 同步间隔
+      .weui-cell__bd
+        = f.number_field :sync_interval, class: 'weui-input', placeholder: '单位分钟'
+
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 同步排号时间
+      .weui-cell__bd
+        = f.number_field :appoint_begin_at, class: 'weui-input', placeholder: '格式 01-01'
+
   .weui-btn-area
     = f.submit '更新', class: 'weui-btn weui-btn_primary', data: { disable_with: '更新中...' }
