@@ -2,7 +2,7 @@ require 'rest-client'
 
 class MachineService
   def initialize
-    @tran_code = Setting.instance.trans_code
+    @tran_code = Setting.instance.tran_code
     @inst_no = Setting.instance.inst_no
     @term_no = Setting.instance.term_no
   end
