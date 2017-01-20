@@ -6,5 +6,5 @@
     }
   });
 <%- else %>
-  weui.topTips('<%= @appointment.errors.full_messages.join('，'.freeze) %>');
+  weui.topTips('<%= @appointment.errors.full_messages.first %>');
 <%- end %>

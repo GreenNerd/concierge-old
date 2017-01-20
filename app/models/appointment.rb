@@ -36,8 +36,8 @@ class Appointment < ApplicationRecord
   end
 
   def ensure_available
-    if Appointment.where(appoint_at: Date.today).count >= Setting.instance.limitation
-      errors.add(:id_number, :reached_limitation)
+    if Appointment.where(appoint_at: Date.today).count >= Setting.instance.limitation.to_i
+      errors.add(:base, :reached_limitation)
     end
   end
 
