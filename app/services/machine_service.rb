@@ -19,7 +19,7 @@ class MachineService
         <TermNo>#{@TermNo}</TermNo>
       </Package>
     EOF
-    url = 'http://' + Setting.first.mip + ":8080/QueueServer/1.0/Services/createNumber"
+    url = 'http://' + Setting.instance.mip + ":8080/QueueServer/1.0/Services/createNumber"
     begin
       res = RestClient.post url, xml_str, content_type: :xml
     rescue Exception

@@ -9,10 +9,10 @@ class AppointmentTest < ActiveSupport::TestCase
     xml_str = <<-EOF
       <?xml version="1.0" encoding="UTF-8" ?>
       <Package>
-        <TranCode>#{Setting.first.trans_code}</TranCode>
-        <InstNo>#{Setting.first.inst_no}</InstNo>
+        <TranCode>#{Setting.instance.trans_code}</TranCode>
+        <InstNo>#{Setting.instance.inst_no}</InstNo>
         <BizType>#{@business_category.number}</BizType>
-        <TermNo>#{Setting.first.term_no}</TermNo>
+        <TermNo>#{Setting.instance.term_no}</TermNo>
       </Package>
     EOF
     xml_res = <<-EOF

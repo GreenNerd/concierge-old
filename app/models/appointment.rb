@@ -12,12 +12,6 @@ class Appointment < ApplicationRecord
            :in_limitation,
            :get_appointment_from_machine
 
-  @@instance = Setting.first if Setting.all.exists?
-
-  def instance
-    return @@instance
-  end
-
   def to_param
     id_number
   end
@@ -37,7 +31,7 @@ class Appointment < ApplicationRecord
   end
 
   def in_limitation
-    limitation = self.instance&.limitation
+    limitation = Setting.instance.limitation
     finished = Appointment.where(appoint_at: Date.today).count
     if limitation - finished < 0
       errors.add(:id_number, "the people number is reaching limitation")
@@ -45,12 +39,12 @@ class Appointment < ApplicationRecord
   end
 
   def get_appointment_from_machine
-    if self.business_category.present? && self.instance.present?
+    if self.business_category.present? && Setting.instance.present?
       res = MachineService.new({
-        trans_code: self.instance.trans_code,
-        inst_no: self.instance.inst_no,
+        trans_code: Setting.instance.trans_code,
+        inst_no: Setting.instance.inst_no,
         biz_type: self.business_category.number,
-        term_no: self.instance.term_no
+        term_no: Setting.instance.term_no
       }).appoint
       if !res
         errors.add(:id_number, "could not get data from appoint machine")
