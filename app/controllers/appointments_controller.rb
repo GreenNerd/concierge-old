@@ -11,15 +11,14 @@ class AppointmentsController < ApplicationController
   def create
     @appointment = Appointment.create appointment_params
 
-    if @appointment.persisted?
-      cookies.permanent.signed[:appointment_id] = @appointment.id
-    end
-
     render layout: false
   end
 
   def show
     @appointment = Appointment.find_by(expired: false, id_number: params[:id_number])
+
+    cookies.permanent.signed[:appointment_id] = @appointment.id if @appointment
+
     redirect_to root_path unless @appointment
   end
 
