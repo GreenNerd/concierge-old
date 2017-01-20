@@ -42,7 +42,7 @@ class Appointment < ApplicationRecord
   end
 
   def reserve
-    res = MachineService.new.create_number(business_category.number)
+    res = ::MachineService.new.create_number(business_category.number)
 
     if res
       self.queue_number = res[:queue_number]
