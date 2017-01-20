@@ -1,13 +1,13 @@
 class Setting < ApplicationRecord
-  cattr_accessor :instance do
-    first || create
-  end
-
   cattr_accessor :sync_job
   cattr_accessor :appointment_reset_job
 
   after_save_commit :set_or_update_sync_job, if: :sync_interval_changed?
   after_save_commit :set_or_update_appointment_reset_job, if: :appoint_begin_at_changed?
+
+  def self.instance
+    first || create
+  end
 
   def set_or_update_sync_job
     sync_job&.unschedule
