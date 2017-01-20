@@ -27,6 +27,8 @@ class SettingsController < ApplicationController
                                     :counter_counter,
                                     :enable,
                                     :mip,
-                                    :limitation)
+                                    :limitation,
+                                    :sync_interval,
+                                    :appoint_begin_at)
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170119090959) do
+ActiveRecord::Schema.define(version: 20170120042946) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,10 +55,12 @@ ActiveRecord::Schema.define(version: 20170119090959) do
     t.string   "term_no"
     t.integer  "counter_counter"
     t.boolean  "enable"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
     t.integer  "limitation"
     t.string   "mip"
+    t.integer  "sync_interval"
+    t.string   "appoint_begin_at"
   end
 
   add_foreign_key "appointments", "business_categories"
