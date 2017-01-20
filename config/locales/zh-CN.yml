@@ -9,3 +9,9 @@ zh-CN:
         appoint_at: 预约日期
         id_number: 身份证号
         phone_number: 手机号
+
+  errors:
+    messages:
+      unclear_appointment: 您有未处理的预约
+      reached_limitation: 当日预约已满
+      reservation_failed: 排号机处理失败
