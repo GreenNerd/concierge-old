@@ -5,5 +5,5 @@ Rails.application.routes.draw do
   resource :settings, only: [:show, :update]
   resources :availabilities, only: [:index, :create, :destroy]
 
-  root 'appointments#new'
+  root 'appointments#index'
 end
