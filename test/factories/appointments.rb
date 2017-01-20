@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :appointment do
-    appoint_at        '2017-01-17'
+    appoint_at        Date.today
     business_category nil
     id_number         '510123123111231231'
     phone_number      '18612345678'

@@ -17,7 +17,7 @@ class SettingsController < ApplicationController
   private
 
   def set_current_setting
-    @setting = Setting.first
+    @setting = Setting.instance
   end
 
   def setting_params
@@ -25,6 +25,8 @@ class SettingsController < ApplicationController
                                     :inst_no,
                                     :term_no,
                                     :counter_counter,
-                                    :enable)
+                                    :enable,
+                                    :mip,
+                                    :limitation)
   end
 end

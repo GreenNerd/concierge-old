@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 20170119090959) do
     t.boolean  "enable"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.integer  "limitation"
+    t.string   "mip"
   end
 
   add_foreign_key "appointments", "business_categories"

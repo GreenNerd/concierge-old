@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.org'
 
 gem 'rails', '~> 5.0.1'
 gem 'pg', '~> 0.18'
@@ -9,6 +9,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'slim-rails'
 gem 'rails-ujs', git: 'https://github.com/rails/rails-ujs.git'
 gem 'rails-i18n', '~> 5.0.0' # For 5.0.x
+gem 'rest-client'
 
 group :development do
   gem 'web-console', '>= 3.3.0'
@@ -25,4 +26,5 @@ group :development, :test do
   gem 'awesome_print'
   gem 'factory_girl_rails'
   gem 'database_cleaner'
+  gem 'webmock'
 end
