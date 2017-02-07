@@ -1,23 +1,12 @@
 require 'test_helper'
 
 class BusinessCategoriesControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
-    get business_categories_index_url
-    assert_response :success
+  setup do
+    @admin_headers = { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('admin', 'secret') }
   end
 
-  test "should get create" do
-    get business_categories_create_url
-    assert_response :success
-  end
-
-  test "should get show" do
-    get business_categories_show_url
-    assert_response :success
-  end
-
-  test "should get destroy" do
-    get business_categories_destroy_url
+  test 'should get index' do
+    get business_categories_url, headers: @admin_headers
     assert_response :success
   end
 
