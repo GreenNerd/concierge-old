@@ -1,0 +1,13 @@
+h1.title 预约管理
+
+.weui-cells__title 状态（点击删除)
+.weui-cells
+  - @appointments.each do |appointment|
+    = link_to appointment_path(appointment), class: 'weui-cell weui-cell_access', method: :delete, data: { confirm: "确认删除 #{appointment.id_number} " }, remote: true do
+      .weui-cell__bd
+        span style='vertical-align: middle' = appointment.id_number
+        - if appointment.available
+          span.weui-badge.weui-badge-success style="margin-left: 5px;" = appointment.id_number
+        - else
+          span.weui-badge style="margin-left: 5px;" = appointment.id_number
+      .weui-cell__ft
