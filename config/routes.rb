@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'delete_appointment/index'
+  get 'removeappointment', to: 'delete_appointment#index'
 
   get 'appointments/query' => 'appointments#query', as: :query_appointment
   resources :appointments, param: :id_number, only: [:new, :create, :show, :index]
