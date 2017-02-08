@@ -10,11 +10,15 @@ class Appointment < ApplicationRecord
   belongs_to :business_category
 
   before_validation :upcase_id_number
-  before_create :reserve
+  before_create :reserve, if: proc { |appointment| appointment.appoint_at.today? }
   after_create_commit :update_queue_number_of_business_category
 
   def to_param
     id_number
+  end
+
+  def create_number
+    ::MachineService.new.create_number(business_category.number)
   end
 
   private
@@ -42,7 +46,7 @@ class Appointment < ApplicationRecord
   end
 
   def reserve
-    res = ::MachineService.new.create_number(business_category.number)
+    res = create_number
 
     if res
       self.queue_number = res[:queue_number]
