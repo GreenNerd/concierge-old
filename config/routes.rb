@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     resources :availabilities, only: [:index, :create, :destroy]
     resources :business_categories, only: [:index, :create, :show, :destroy]
 
-    get 'removeappointment', to: 'appointments#index'
+    get 'appointments', to: 'appointments#index'
     root 'appointments#admin'
   end
 
