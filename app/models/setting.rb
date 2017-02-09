@@ -11,6 +11,10 @@ class Setting < ApplicationRecord
     first || create
   end
 
+  def self.wait_number_count
+    total_number_count.to_i - pass_number_count.to_i
+  end
+
   def set_or_update_sync_job
     return unless avoid_scheduler?
 

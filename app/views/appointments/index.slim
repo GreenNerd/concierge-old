@@ -1,7 +1,7 @@
 .operations-area-wrap
   .operations-area
     = link_to '在线排号', new_appointment_path, class: 'weui-btn weui-btn_primary weui-btn_huge'
-    .appointments-count 排队人数：29
+    .appointments-count = "排队人数：#{Setting.wait_number_count}"
 
 .weui-footer.weui-footer_fixed-bottom
   p.weui-footer__links
