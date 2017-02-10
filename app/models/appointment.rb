@@ -3,7 +3,7 @@ class Appointment < ApplicationRecord
   validates :phone_number, presence: true, format: { with: /\A1\d{10}\Z/ }
   validates :appoint_at, presence: true
   validates :business_category, presence: true
-  validate :ensure_clear_appointment
+  validate :ensure_clear_appointment, on: :create
   validate :ensure_appoint_at_within_range
   validate :ensure_available
 
