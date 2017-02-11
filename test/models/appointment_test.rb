@@ -79,7 +79,7 @@ class AppointmentTest < ActiveSupport::TestCase
 
   test 'should fail for already has a appointment' do
     apo = FactoryGirl.create :appointment, business_category: @business_category
-    @appointment.id_number = apo.id_number
+    @appointment.openid = apo.openid
     assert_not @appointment.valid?
   end
 
