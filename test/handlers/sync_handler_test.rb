@@ -1,9 +1,10 @@
+require 'test_helper'
+
 class SyncHandlerTest < ActiveSupport::TestCase
   setup do
-    @scheduler = Rufus::Scheduler.new
-    Setting.instance.update_columns limitation: 1000
+    FactoryGirl.create :setting
 
-    total_xml_res = <<-EOF
+    total_xml_rsp = <<-EOF
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <Package>
       <RspCode>0</RspCode>
@@ -14,7 +15,7 @@ class SyncHandlerTest < ActiveSupport::TestCase
       </Package>
     EOF
 
-    pass_xml_res = <<-EOF
+    pass_xml_rsp = <<-EOF
       <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
       <Package>
       <RspCode>0</RspCode>
@@ -25,27 +26,19 @@ class SyncHandlerTest < ActiveSupport::TestCase
       </Package>
     EOF
 
-    WebMock
-      .stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/numbercount")
-      .to_return(body: total_xml_res)
-    WebMock
-      .stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/passcount")
-      .to_return(body: pass_xml_res)
+    stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/numbercount")
+      .to_return(body: total_xml_rsp)
+    stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/passcount")
+      .to_return(body: pass_xml_rsp)
   end
 
   test 'should store total number count' do
-    handler = SyncHandler.new
-    @scheduler.schedule_in('0s', handler)
-    sleep 0.4
-
+    run_job SyncHandler
     assert Setting.total_number_count, 17
   end
 
   test 'should store pass number count' do
-    handler = SyncHandler.new
-    @scheduler.schedule_in('0s', handler)
-    sleep 0.4
-
+    run_job SyncHandler
     assert Setting.pass_number_count, 4
   end
 end

@@ -2,16 +2,18 @@ class SyncHandler
   def call(job, time)
     Rails.logger.info "Scheduler:* #{time} - Handler SyncHandler called for #{job.id}"
 
+    service = ::MachineService.new
+
     3.times do |n|
-      service = ::MachineService.new
-      res1 = service.number_count(0)
-      res2 = service.pass_count(0)
-      if res1 && res2
-        Setting.total_number_count = res1.dig :package, :qcount
-        Setting.pass_number_count = res2.dig :package, :qcount
+      number_count_rsp = service.number_count(0)
+      pass_count_rsp = service.pass_count(0)
+
+      if number_count_rsp && pass_count_rsp
+        Setting.total_number_count = number_count_rsp.dig :package, :qcount
+        Setting.pass_number_count = number_count_rsp.dig :package, :qcount
         break
       else
-        Rails.logger.warn "Failed to get number_count and pass_count! Retry #{n}"
+        Rails.logger.warn "SyncHandler: Failed to get number_count and pass_count! Retry #{n}"
       end
     end
   end
