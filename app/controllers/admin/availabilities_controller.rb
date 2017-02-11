@@ -1,4 +1,4 @@
-class AvailabilitiesController < AdminController
+class Admin::AvailabilitiesController < AdminController
 
   layout 'admin'.freeze
 
