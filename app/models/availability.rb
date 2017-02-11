@@ -1,6 +1,4 @@
 class Availability < ApplicationRecord
-  DATE_FORMAT = '%m-%d'.freeze
-
   validates_inclusion_of :available, in: [true, false]
   validates :effective_date, presence: true, uniqueness: true
 
@@ -23,9 +21,9 @@ class Availability < ApplicationRecord
   end
 
   def self.available_at?(date)
-    return false unless date.respond_to?(:strftime)
+    return false unless date.acts_like?(:date) || date.acts_like?(:time)
 
-    availability = find_by(effective_date: date.strftime(DATE_FORMAT))
+    availability = find_by(effective_date: date.to_s(:month_and_day))
 
     if availability
       availability.available?
@@ -42,8 +40,7 @@ class Availability < ApplicationRecord
     if effective_date.to_s =~ /-/
       month, day = effective_date.split(/-/).map(&:to_i)
       self.effective_date = begin
-                              Date.new(1, month, day)
-                                  .strftime(DATE_FORMAT)
+                              Date.new(1, month, day).to_s(:month_and_day)
                             rescue
                               nil
                             end

@@ -135,7 +135,7 @@ class AppointmentTest < ActiveSupport::TestCase
 
       assert_not @appointment.save
 
-      FactoryGirl.create :availability, available: true, effective_date: appoint_at.strftime(Availability::DATE_FORMAT)
+      FactoryGirl.create :availability, available: true, effective_date: appoint_at.to_s(:month_and_day)
 
       assert @appointment.save
     end
