@@ -6,5 +6,6 @@ FactoryGirl.define do
     counter_counter 1
     enable false
     mip 'http://192.168.18.88:8080'
+    limitation 10
   end
 end

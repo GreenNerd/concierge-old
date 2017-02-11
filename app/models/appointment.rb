@@ -3,18 +3,38 @@ class Appointment < ApplicationRecord
   validates :phone_number, presence: true, format: { with: /\A1\d{10}\Z/ }
   validates :appoint_at, presence: true
   validates :business_category, presence: true
-  validate :ensure_clear_appointment
+  validate :ensure_clear_appointment, on: :create
   validate :ensure_appoint_at_within_range
   validate :ensure_available
 
   belongs_to :business_category
 
+  scope :unreserved, -> { where(queue_number: nil) }
+  scope :past, -> { where('appoint_at < ?', Date.today) }
+  scope :unexpired, -> { where(expired: false) }
+  scope :today, -> { where(appoint_at: Date.today) }
+
   before_validation :upcase_id_number
-  before_create :reserve
+  before_create :reserve, if: proc { |appointment| appointment.appoint_at.today? }
   after_create_commit :update_queue_number_of_business_category
 
   def to_param
     id_number
+  end
+
+  def reserve
+    reserve_from_machine
+
+    unless queue_number?
+      errors.add(:base, :reservation_failed)
+      throw :abort
+    end
+  end
+
+  def reserve!
+    reserve_from_machine
+
+    save if queue_number?
   end
 
   private
@@ -41,14 +61,18 @@ class Appointment < ApplicationRecord
     end
   end
 
-  def reserve
-    res = ::MachineService.new.create_number(business_category.number)
+  def reserve_from_machine
+    return if queue_number?
 
-    if res
-      self.queue_number = res[:queue_number]
-    else
-      errors.add(:base, :reservation_failed)
-      throw :abort
+    machine_service = ::MachineService.new
+
+    3.times do |n|
+      rsp = machine_service.create_number(business_category.number)
+
+      if rsp
+        self.queue_number = rsp.dig(:package, :queue_number)
+        break
+      end
     end
   end
 

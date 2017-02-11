@@ -2,8 +2,8 @@ require 'test_helper'
 
 class SettingsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    FactoryGirl.create :setting
     @admin_headers = { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('admin', 'secret') }
-    @setting = FactoryGirl.create(:setting)
   end
 
   test 'should get show successfully' do
@@ -28,8 +28,7 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
       params: { setting: { tran_code: new_tran_code } },
       headers: @admin_headers,
       xhr: true
-    @setting.reload
 
-    assert_equal new_tran_code, @setting.tran_code
+    assert_equal new_tran_code, Setting.instance.reload.tran_code
   end
 end

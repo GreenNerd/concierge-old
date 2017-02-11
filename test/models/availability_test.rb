@@ -30,7 +30,7 @@ class AvailabilityTest < ActiveSupport::TestCase
 
   test '.available_at?' do
     format_date = lambda do |date|
-      date.strftime(Availability::DATE_FORMAT)
+      date.to_s(:month_and_day)
     end
 
     day_off_date = Date.today.last_weekday
@@ -54,7 +54,7 @@ class AvailabilityTest < ActiveSupport::TestCase
 
   test '.next_available_dates' do
     format_date = lambda do |date|
-      date.strftime(Availability::DATE_FORMAT)
+      date.to_s(:month_and_day)
     end
 
     friday = Date.new(2017, 1, 3)

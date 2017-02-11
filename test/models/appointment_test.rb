@@ -2,9 +2,13 @@ require 'test_helper'
 
 class AppointmentTest < ActiveSupport::TestCase
   setup do
+    FactoryGirl.create :setting
+
+    @avaiable_appoint_at = Availability.next_available_dates(days: 1).first
+
     @business_category = FactoryGirl.create :business_category
-    FactoryGirl.create :setting, limitation: 1000
-    @appointment = FactoryGirl.build :appointment, business_category: @business_category
+
+    @appointment = FactoryGirl.build :appointment, business_category: @business_category, appoint_at: @avaiable_appoint_at
 
     xml_res = <<-EOF
       <?xml version="1.0" encoding="UTF-8" ?>
@@ -105,15 +109,35 @@ class AppointmentTest < ActiveSupport::TestCase
       </Package>
     EOF
 
-    WebMock
-      .stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber")
+    stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber")
       .to_return(body: failed_xml)
 
-    assert_not @appointment.save
+    Timecop.freeze(@avaiable_appoint_at) do
+      assert_not @appointment.save
+    end
   end
 
   test 'should succes for default post' do
     @business_category.update(number: 1)
     assert @appointment.valid?
+  end
+
+  test 'should reserve from machine' do
+    @appointment.save
+    assert_not @appointment.queue_number, 'A001'
+  end
+
+  test 'should reserve from machine if the appoint_at is available weekend' do
+    appoint_at = Date.today.sunday
+
+    Timecop.freeze appoint_at do
+      @appointment.appoint_at = appoint_at
+
+      assert_not @appointment.save
+
+      FactoryGirl.create :availability, available: true, effective_date: appoint_at.to_s(:month_and_day)
+
+      assert @appointment.save
+    end
   end
 end
