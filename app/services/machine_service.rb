@@ -15,7 +15,7 @@ class MachineService
 
     url = "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber"
 
-    get_post_result(url, payload)
+    post_with(url, payload)
   end
 
   # get the the total of appointment number of the day
@@ -26,7 +26,7 @@ class MachineService
 
     url = "#{Setting.instance.mip}/QueueServer/1.0/Services/numbercount"
 
-    get_post_result(url, payload)
+    post_with(url, payload)
   end
 
   # get the service terminal serving number
@@ -38,7 +38,7 @@ class MachineService
 
     url = "#{Setting.instance.mip}/QueueServer/1.0/Services/servingnumber"
 
-    get_post_result(url, payload)
+    post_with(url, payload)
   end
 
   # get the passed appointment number the day
@@ -49,23 +49,21 @@ class MachineService
 
     url = "#{Setting.instance.mip}/QueueServer/1.0/Services/passcount"
 
-    get_post_result(url, payload)
+    post_with(url, payload)
   end
 
   private
 
-  def get_post_result(url, payload)
-    begin
-      resp = RestClient.post url, payload, content_type: :xml
+  def post_with(url, payload)
+    rsp = RestClient.post url, payload, content_type: :xml
 
-      if resp.code == 200
-        resp_hsh = Hash.from_xml(resp.body)
-                       .deep_transform_keys { |key| key.to_s.underscore.to_sym }
-        return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
-      end
-    rescue
-      nil
+    if rsp.code == 200
+      resp_hsh = Hash.from_xml(rsp.body)
+                     .deep_transform_keys { |key| key.to_s.underscore.to_sym }
+      return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
     end
+  rescue
+    nil
   end
 
   def pack_payload(hsh)
