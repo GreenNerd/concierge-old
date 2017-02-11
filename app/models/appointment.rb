@@ -17,8 +17,19 @@ class Appointment < ApplicationRecord
     id_number
   end
 
-  def create_number
-    ::MachineService.new.create_number(business_category.number)
+  def reserve
+    reserve_from_machine
+
+    unless queue_number?
+      errors.add(:base, :reservation_failed)
+      throw :abort
+    end
+  end
+
+  def reserve!
+    reserve_from_machine
+
+    save if queue_number?
   end
 
   private
@@ -45,14 +56,16 @@ class Appointment < ApplicationRecord
     end
   end
 
-  def reserve
-    res = create_number
+  def reserve_from_machine
+    machine_service = ::MachineService.new
 
-    if res
-      self.queue_number = res[:queue_number]
-    else
-      errors.add(:base, :reservation_failed)
-      throw :abort
+    3.times do |n|
+      rsp = machine_service.create_number(business_category.number)
+
+      if rsp
+        self.queue_number = rsp.dig(:package, :queue_number)
+        break
+      end
     end
   end
 
