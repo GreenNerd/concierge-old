@@ -13,7 +13,7 @@ class Admin::BusinessCategoriesController < Admin::ApplicationController
   end
 
   def destroy
-    @business_category = BusinessCategory.find_by params[:id]
+    @business_category = BusinessCategory.find_by id: params[:id]
     @business_category.destroy if @business_category
 
     render action: index

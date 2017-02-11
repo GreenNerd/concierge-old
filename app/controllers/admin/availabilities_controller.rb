@@ -13,7 +13,7 @@ class Admin::AvailabilitiesController < Admin::ApplicationController
   end
 
   def destroy
-    @availability = Availability.find_by params[:id]
+    @availability = Availability.find_by id: params[:id]
     @availability.destroy if @availability
 
     render action: index
