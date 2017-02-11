@@ -1,5 +1,4 @@
-class AvailabilitiesController < ApplicationController
-  http_basic_authenticate_with name: 'admin', password: 'secret'
+class AvailabilitiesController < AdminController
 
   layout 'admin'.freeze
 
@@ -14,7 +13,7 @@ class AvailabilitiesController < ApplicationController
   end
 
   def destroy
-    @availability = Availability.find params[:id]
+    @availability = Availability.find_by params[:id]
     @availability.destroy if @availability
 
     render layout: false

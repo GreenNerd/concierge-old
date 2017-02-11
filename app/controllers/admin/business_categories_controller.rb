@@ -1,5 +1,4 @@
-class BusinessCategoriesController < ApplicationController
-  http_basic_authenticate_with name: 'admin', password: 'secret'
+class BusinessCategoriesController < AdminController
 
   layout 'admin'.freeze
 
@@ -14,7 +13,7 @@ class BusinessCategoriesController < ApplicationController
   end
 
   def destroy
-    @business_category = BusinessCategory.find params[:id]
+    @business_category = BusinessCategory.find_by params[:id]
     @business_category.destroy if @business_category
 
     render layout: false
