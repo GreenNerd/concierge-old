@@ -33,7 +33,7 @@ class AppointmentsController < ApplicationController
   end
 
   def destroy
-    @appointment = Appointment.find params[:id]
+    @appointment = Appointment.find_by params[:id]
     @appointment.destroy if @appointment
 
     render action: index
