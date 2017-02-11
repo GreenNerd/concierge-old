@@ -50,6 +50,12 @@ h1.title 设置
       .weui-cell__bd
         = f.text_field :mip, class: 'weui-input', placeholder: '请输入排号机IP'
 
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 授权服务器
+      .weui-cell__bd
+        = f.text_field :openid_server, class: 'weui-input', placeholder: '请输入授权服务器地址'
+
   .weui-cells__title 同步设置
   .weui-cells
     .weui-cell

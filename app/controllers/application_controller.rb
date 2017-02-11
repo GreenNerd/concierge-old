@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
       redirect_to redirect_uri if redirect_uri
     else
       session[:redirect_uri] = request.url
-      redirect_to "https://skylarkly.com/wechats/1/openid_disptcher?redirect_uri=#{request.url}"
+      redirect_to "#{Setting.instance.openid_server}?redirect_uri=#{request.url}"
     end
   end
 end
