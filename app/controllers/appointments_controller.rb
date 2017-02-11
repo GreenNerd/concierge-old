@@ -36,7 +36,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.find params[:id]
     @appointment.destroy if @appointment
 
-    render layout: false
+    render action: index
   end
 
   private
