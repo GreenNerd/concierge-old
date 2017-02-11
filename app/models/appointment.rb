@@ -2,6 +2,7 @@ class Appointment < ApplicationRecord
   validates :id_number, presence: true, format: { with: /\A[1-9]\d{16}[0-9X]\Z/ }
   validates :phone_number, presence: true, format: { with: /\A1\d{10}\Z/ }
   validates :appoint_at, presence: true
+  validates :openid, presence: true
   validates :business_category, presence: true
   validate :ensure_clear_appointment
   validate :ensure_appoint_at_within_range
@@ -20,9 +21,9 @@ class Appointment < ApplicationRecord
   private
 
   def ensure_clear_appointment
-    return unless id_number.present?
+    return unless openid.present?
 
-    if Appointment.where(id_number: id_number, expired: false).exists?
+    if Appointment.where(openid: openid, expired: false).exists?
       errors.add(:base, :unclear_appointment)
     end
   end

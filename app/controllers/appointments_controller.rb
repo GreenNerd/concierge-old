@@ -10,7 +10,7 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = Appointment.create appointment_params
+    @appointment = Appointment.create appointment_params.merge({ openid: cookies.signed[:user_openid] })
 
     render layout: false
   end
