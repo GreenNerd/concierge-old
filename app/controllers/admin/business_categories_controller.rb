@@ -16,7 +16,7 @@ class Admin::BusinessCategoriesController < Admin::ApplicationController
     @business_category = BusinessCategory.find_by params[:id]
     @business_category.destroy if @business_category
 
-    render layout: false
+    render action: index
   end
 
   private
