@@ -3,7 +3,7 @@ require 'test_helper'
 class SettingsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @admin_headers = { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('admin', 'secret') }
-    @setting = FactoryGirl.create(:setting)
+    @setting = Setting.instance
   end
 
   test 'should get show successfully' do
