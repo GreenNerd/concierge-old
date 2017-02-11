@@ -68,7 +68,7 @@ h1.title 设置
       .weui-cell__hd
         label.weui-label 同步排号时间
       .weui-cell__bd
-        = f.number_field :appoint_begin_at, class: 'weui-input', placeholder: '格式 01-01'
+        = f.text_field :appoint_begin_at, class: 'weui-input', placeholder: '格式 01:01'
 
   .weui-btn-area
     = f.submit '更新', class: 'weui-btn weui-btn_primary', data: { disable_with: '更新中...' }

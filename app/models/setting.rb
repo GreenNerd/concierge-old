@@ -43,8 +43,7 @@ class Setting < ApplicationRecord
 
     appointment_reset_job&.unschedule
 
-    if appoint_begin_at.present?
-      first_at = Time.zone.parse(appoint_begin_at)
+    if appoint_begin_at.present? && first_at = Time.zone.parse(appoint_begin_at)
       first_at = first_at.tomorrow if first_at.past?
 
       self.appointment_reset_job = Rufus::Scheduler.singleton.every '1d'.freeze, AppointmentResetHandler.new, first_at: first_at, job: true
