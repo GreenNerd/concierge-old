@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170120042946) do
+ActiveRecord::Schema.define(version: 20170211163411) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20170120042946) do
     t.boolean  "expired",              default: false
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.string   "openid"
     t.index ["appoint_at"], name: "index_appointments_on_appoint_at", using: :btree
     t.index ["business_category_id"], name: "index_appointments_on_business_category_id", using: :btree
     t.index ["id_number"], name: "index_appointments_on_id_number", using: :btree
@@ -61,6 +62,7 @@ ActiveRecord::Schema.define(version: 20170120042946) do
     t.string   "mip"
     t.integer  "sync_interval"
     t.string   "appoint_begin_at"
+    t.string   "openid_server"
   end
 
   add_foreign_key "appointments", "business_categories"

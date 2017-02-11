@@ -29,6 +29,7 @@ class SettingsController < ApplicationController
                                     :mip,
                                     :limitation,
                                     :sync_interval,
-                                    :appoint_begin_at)
+                                    :appoint_begin_at,
+                                    :openid_server)
   end
 end

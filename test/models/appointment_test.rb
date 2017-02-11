@@ -123,8 +123,10 @@ class AppointmentTest < ActiveSupport::TestCase
   end
 
   test 'should reserve from machine' do
-    @appointment.save
-    assert_not @appointment.queue_number, 'A001'
+    Timecop.freeze @appoint_at do
+      @appointment.save
+      assert @appointment.queue_number, 'A001'
+    end
   end
 
   test 'should reserve from machine if the appoint_at is available weekend' do
