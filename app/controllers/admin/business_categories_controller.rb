@@ -1,4 +1,4 @@
-class Admin::BusinessCategoriesController < AdminController
+class Admin::BusinessCategoriesController < Admin::ApplicationController
 
   layout 'admin'.freeze
 
