@@ -16,7 +16,7 @@ class Admin::AvailabilitiesController < Admin::ApplicationController
     @availability = Availability.find_by id: params[:id]
     @availability.destroy if @availability
 
-    render action: index
+    redirect_to action: index
   end
 
   private
