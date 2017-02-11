@@ -1,4 +1,6 @@
 class Setting < ApplicationRecord
+  cattr_accessor :setting
+
   cattr_accessor :sync_job
   cattr_accessor :appointment_reset_job
   cattr_accessor :total_number_count
@@ -7,8 +9,10 @@ class Setting < ApplicationRecord
   after_update_commit :set_or_update_sync_job, if: :sync_interval_changed?
   after_update_commit :set_or_update_appointment_reset_job, if: :appoint_begin_at_changed?
 
+  after_commit :update_singleton
+
   def self.instance
-    first || create
+    self.setting ||= first_or_create
   end
 
   def self.wait_number_count
@@ -44,5 +48,9 @@ class Setting < ApplicationRecord
 
   def avoid_scheduler?
     Rails.env.test? || defined?(Rails::Console)
+  end
+
+  def update_singleton
+    self.setting = self
   end
 end
