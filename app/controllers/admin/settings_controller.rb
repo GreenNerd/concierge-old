@@ -1,4 +1,4 @@
-class Admin::SettingsController < AdminController
+class Admin::SettingsController < Admin::ApplicationController
 
   layout 'admin'.freeze
 
