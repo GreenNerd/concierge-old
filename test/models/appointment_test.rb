@@ -2,9 +2,13 @@ require 'test_helper'
 
 class AppointmentTest < ActiveSupport::TestCase
   setup do
+    FactoryGirl.create :setting
+
+    @avaiable_appoint_at = Availability.next_available_dates(days: 1).first
+
     @business_category = FactoryGirl.create :business_category
-    FactoryGirl.create :setting, limitation: 1000
-    @appointment = FactoryGirl.build :appointment, business_category: @business_category
+
+    @appointment = FactoryGirl.build :appointment, business_category: @business_category, appoint_at: @avaiable_appoint_at
 
     xml_res = <<-EOF
       <?xml version="1.0" encoding="UTF-8" ?>
@@ -105,11 +109,12 @@ class AppointmentTest < ActiveSupport::TestCase
       </Package>
     EOF
 
-    WebMock
-      .stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber")
+    stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/createNumber")
       .to_return(body: failed_xml)
 
-    assert_not @appointment.save
+    Timecop.freeze(@avaiable_appoint_at) do
+      assert_not @appointment.save
+    end
   end
 
   test 'should succes for default post' do
