@@ -3,18 +3,22 @@ class Appointment < ApplicationRecord
   validates :phone_number, presence: true, format: { with: /\A1\d{10}\Z/ }
   validates :appoint_at, presence: true
   validates :business_category, presence: true
-  validate :ensure_clear_appointment
+  validate :ensure_clear_appointment, on: :create
   validate :ensure_appoint_at_within_range
   validate :ensure_available
 
   belongs_to :business_category
 
   before_validation :upcase_id_number
-  before_create :reserve
+  before_create :reserve, if: proc { |appointment| appointment.appoint_at.today? }
   after_create_commit :update_queue_number_of_business_category
 
   def to_param
     id_number
+  end
+
+  def create_number
+    ::MachineService.new.create_number(business_category.number)
   end
 
   private
@@ -42,7 +46,7 @@ class Appointment < ApplicationRecord
   end
 
   def reserve
-    res = ::MachineService.new.create_number(business_category.number)
+    res = create_number
 
     if res
       self.queue_number = res[:queue_number]

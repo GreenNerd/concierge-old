@@ -1,12 +1,18 @@
 class Setting < ApplicationRecord
   cattr_accessor :sync_job
   cattr_accessor :appointment_reset_job
+  cattr_accessor :total_number_count
+  cattr_accessor :pass_number_count
 
   after_update_commit :set_or_update_sync_job, if: :sync_interval_changed?
   after_update_commit :set_or_update_appointment_reset_job, if: :appoint_begin_at_changed?
 
   def self.instance
     first || create
+  end
+
+  def self.wait_number_count
+    total_number_count.to_i - pass_number_count.to_i
   end
 
   def set_or_update_sync_job
