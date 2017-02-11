@@ -57,6 +57,8 @@ class Appointment < ApplicationRecord
   end
 
   def reserve_from_machine
+    return if queue_number?
+
     machine_service = ::MachineService.new
 
     3.times do |n|
