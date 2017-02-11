@@ -30,15 +30,23 @@ class SyncHandlerTest < ActiveSupport::TestCase
       .to_return(body: total_xml_rsp)
     stub_request(:post, "#{Setting.instance.mip}/QueueServer/1.0/Services/passcount")
       .to_return(body: pass_xml_rsp)
+
+    @scheduler = Rufus::Scheduler.new
+  end
+
+  teardown do
+    @scheduler.shutdown
   end
 
   test 'should store total number count' do
-    run_job SyncHandler
+    job = @scheduler.in('0s', SyncHandler.new, job: true)
+    job.call
     assert Setting.total_number_count, 17
   end
 
   test 'should store pass number count' do
-    run_job SyncHandler
+    job = @scheduler.in('0s', SyncHandler.new, job: true)
+    job.call
     assert Setting.pass_number_count, 4
   end
 end

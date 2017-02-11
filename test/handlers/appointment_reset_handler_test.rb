@@ -26,19 +26,24 @@ class AppointmentResetHandlerTest < ActiveSupport::TestCase
     @appointment_1 = FactoryGirl.create :appointment, business_category: @business_category, appoint_at: '2017-2-9'
     @appointment_2 = FactoryGirl.create :appointment, business_category: @business_category, appoint_at: '2017-2-10', id_number: '510111111111131231'
     Timecop.freeze('2017-2-9')
+
+    @scheduler = Rufus::Scheduler.new
   end
 
   teardown do
+    @scheduler.shutdown
     Timecop.return
   end
 
   test 'should update appointment_1 queue_number' do
-    run_job AppointmentResetHandler
+    job = @scheduler.in('0s', AppointmentResetHandler.new, job: true)
+    job.call
     assert_equal @appointment_1.reload.queue_number, 'A003'
   end
 
   test 'should not update appointment_2 queue_number' do
-    run_job AppointmentResetHandler
+    job = @scheduler.in('0s', AppointmentResetHandler.new, job: true)
+    job.call
     assert_not_equal @appointment_2.reload.queue_number, 'A003'
   end
 end
