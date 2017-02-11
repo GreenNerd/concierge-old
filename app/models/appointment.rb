@@ -9,6 +9,11 @@ class Appointment < ApplicationRecord
 
   belongs_to :business_category
 
+  scope :unreserved, -> { where(queue_number: nil) }
+  scope :past, -> { where('appoint_at < ?', Date.today) }
+  scope :unexpired, -> { where(expired: false) }
+  scope :today, -> { where(appoint_at: Date.today) }
+
   before_validation :upcase_id_number
   before_create :reserve, if: proc { |appointment| appointment.appoint_at.today? }
   after_create_commit :update_queue_number_of_business_category

@@ -19,6 +19,13 @@ class Setting < ApplicationRecord
     total_number_count.to_i - pass_number_count.to_i
   end
 
+  def self.warmup
+    instance.set_or_update_appoint_job
+    instance.set_or_update_sync_job
+    Rufus::Scheduler.singleton.in '0s'.freeze, SyncHandler.new
+    Rufus::Scheduler.singleton.in '0s'.freeze, AppointmentResetHandler.new
+  end
+
   def set_or_update_sync_job
     return unless avoid_scheduler?
 
