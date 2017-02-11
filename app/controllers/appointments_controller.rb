@@ -1,6 +1,6 @@
 class AppointmentsController < ApplicationController
-  before_action :find_appointment, only: [:new, :index]
   before_action :check_openid
+  before_action :detect_appointment, only: [:new, :index]
 
   def index
   end
@@ -10,15 +10,13 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = Appointment.create appointment_params.merge({ openid: cookies.signed[:openid] })
+    @appointment = Appointment.create appointment_params.merge({ openid: session[:openid] })
 
     render layout: false
   end
 
   def show
-    @appointment = Appointment.find_by(expired: false, id_number: params[:id_number])
-
-    cookies.permanent.signed[:appointment_id] = @appointment.id if @appointment
+    @appointment = Appointment.find_by(expired: false, openid: session[:openid])
 
     redirect_to root_path unless @appointment
   end
@@ -39,8 +37,8 @@ class AppointmentsController < ApplicationController
     params.require(:appointment).permit(:appoint_at, :business_category_id, :id_number, :phone_number)
   end
 
-  def find_appointment
-    @appointment = Appointment.find_by(expired: false, id: cookies.signed[:appointment_id])
+  def detect_appointment
+    @appointment = Appointment.find_by(expired: false, openid: session[:openid])
     redirect_to appointment_path(@appointment) if @appointment
   end
 end

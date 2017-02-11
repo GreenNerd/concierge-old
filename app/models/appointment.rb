@@ -19,10 +19,6 @@ class Appointment < ApplicationRecord
   before_create :reserve, if: proc { |appointment| appointment.appoint_at.today? }
   after_create_commit :update_queue_number_of_business_category
 
-  def to_param
-    id_number
-  end
-
   def reserve
     reserve_from_machine
 
