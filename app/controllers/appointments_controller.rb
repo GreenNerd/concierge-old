@@ -35,7 +35,7 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.find_by id: params[:id]
     @appointment.destroy if @appointment
 
-    render action: index
+    redirect_to action: index
   end
 
   private
