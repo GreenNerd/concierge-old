@@ -121,4 +121,23 @@ class AppointmentTest < ActiveSupport::TestCase
     @business_category.update(number: 1)
     assert @appointment.valid?
   end
+
+  test 'should reserve from machine' do
+    @appointment.save
+    assert_not @appointment.queue_number, 'A001'
+  end
+
+  test 'should reserve from machine if the appoint_at is available weekend' do
+    appoint_at = Date.today.sunday
+
+    Timecop.freeze appoint_at do
+      @appointment.appoint_at = appoint_at
+
+      assert_not @appointment.save
+
+      FactoryGirl.create :availability, available: true, effective_date: appoint_at.strftime(Availability::DATE_FORMAT)
+
+      assert @appointment.save
+    end
+  end
 end
