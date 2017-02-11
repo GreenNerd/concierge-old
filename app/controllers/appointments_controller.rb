@@ -1,6 +1,6 @@
 class AppointmentsController < ApplicationController
   before_action :find_appointment, only: [:new, :index]
-  before_action :store_openid, only: [:index]
+  before_action :check_openid
 
   def index
   end
@@ -10,7 +10,7 @@ class AppointmentsController < ApplicationController
   end
 
   def create
-    @appointment = Appointment.create appointment_params.merge({ openid: cookies.signed[:user_openid] })
+    @appointment = Appointment.create appointment_params.merge({ openid: cookies.signed[:openid] })
 
     render layout: false
   end
@@ -42,9 +42,5 @@ class AppointmentsController < ApplicationController
   def find_appointment
     @appointment = Appointment.find_by(expired: false, id: cookies.signed[:appointment_id])
     redirect_to appointment_path(@appointment) if @appointment
-  end
-
-  def store_openid
-    cookies.permanent.signed[:user_openid] = params[:user_openid] if params[:user_openid]
   end
 end

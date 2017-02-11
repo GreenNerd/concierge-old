@@ -1,13 +1,17 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  before_action :check_openid
 
   private
 
   def check_openid
-    unless cookies.signed[:user_openid] || params[:user_openid] || Rails.env.test?
-      url = 'https://skylarkly.com/wechats/1/openid_disptcher?redirect_uri=https://domain.com'
-      redirect_to url
+    session[:openid] = params[:openid] if params[:openid].present?
+
+    if session[:openid]
+      redirect_uri = session.delete :redirect_uri
+      redirect_to redirect_uri if redirect_uri
+    else
+      session[:redirect_uri] = request.url
+      redirect_to "https://skylarkly.com/wechats/1/openid_disptcher?redirect_uri=#{request.url}"
     end
   end
 end
