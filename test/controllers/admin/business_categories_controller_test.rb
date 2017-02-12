@@ -29,4 +29,13 @@ class BusinessCategoriesControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  test "should success destroy" do
+    business_category = FactoryGirl.create :business_category, name: "haha", number: 9, prefix: "J"
+    assert_difference('BusinessCategory.count', -1) do
+      delete admin_business_category_url(business_category),
+        headers: @admin_headers,
+        xhr: true
+    end
+  end
+
 end

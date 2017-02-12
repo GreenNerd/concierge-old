@@ -27,4 +27,13 @@ class AvailabilitiesControllerTest < ActionDispatch::IntegrationTest
         xhr: true
     end
   end
+
+  test "should success delete" do
+    availability = FactoryGirl.create :availability, available: false, effective_date: "02-16"
+    assert_difference('Availability.count', -1) do
+      delete admin_availability_url(availability),
+        headers: @admin_headers,
+        xhr: true
+    end
+  end
 end
