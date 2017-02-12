@@ -1,0 +1,8 @@
+<%- if @business_category.persisted? %>
+  weui.toast('添加成功', {
+    duration: 1000,
+    callback: function(){ window.location.reload(); }
+  });
+<%- else %>
+  weui.topTips('<%= @business_category.errors.full_messages.join('，'.freeze) %>');
+<%- end %>
