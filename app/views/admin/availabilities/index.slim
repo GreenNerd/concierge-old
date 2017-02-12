@@ -3,7 +3,7 @@ h1.title 放假调休设置
 .weui-cells__title 状态（点击删除)
 .weui-cells
   - @availabilities.each do |availability|
-    = link_to availability_path(availability), class: 'weui-cell weui-cell_access', method: :delete, data: { confirm: "确认删除 #{availability.effective_date}（#{availability.human_available}）" }, remote: true do
+    = link_to admin_availability_path(availability), class: 'weui-cell weui-cell_access', method: :delete, data: { confirm: "确认删除 #{availability.effective_date}（#{availability.human_available}）" }, remote: true do
       .weui-cell__bd
         span style='vertical-align: middle' = availability.effective_date
         - if availability.available
@@ -12,7 +12,7 @@ h1.title 放假调休设置
           span.weui-badge style="margin-left: 5px;" = availability.human_available
       .weui-cell__ft
 
-= form_for @availability, url: availabilities_url, remote: true, html: { class: 'js-availability-form' } do |f|
+= form_for @availability, url: admin_availabilities_url, remote: true, html: { class: 'js-availability-form' } do |f|
   .weui-cells__title 新增放假调休
   .weui-cells
     .weui-cell

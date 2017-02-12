@@ -1,5 +1,4 @@
-class SettingsController < ApplicationController
-  http_basic_authenticate_with name: 'admin', password: 'secret'
+class Admin::SettingsController < Admin::ApplicationController
 
   layout 'admin'.freeze
 
