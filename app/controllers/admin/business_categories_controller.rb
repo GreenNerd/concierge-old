@@ -16,7 +16,10 @@ class Admin::BusinessCategoriesController < Admin::ApplicationController
     @business_category = BusinessCategory.find_by id: params[:id]
     @business_category.destroy if @business_category
 
-    redirect_to action: index
+    respond_to do |format|
+      format.html { redirect_to admin_business_categories_path }
+      format.js { render layout: false }
+    end
   end
 
   private

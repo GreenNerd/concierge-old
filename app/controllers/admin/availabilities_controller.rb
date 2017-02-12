@@ -16,7 +16,10 @@ class Admin::AvailabilitiesController < Admin::ApplicationController
     @availability = Availability.find_by id: params[:id]
     @availability.destroy if @availability
 
-    redirect_to action: index
+    respond_to do |format|
+      format.html { redirect_to admin_availabilities_path }
+      format.js { render layout: false }
+    end
   end
 
   private
