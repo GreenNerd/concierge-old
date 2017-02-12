@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     resources :business_categories, only: [:index, :create, :show, :destroy]
 
     get 'removeappointment', to: 'appointments#index'
+    root 'appointments#admin'
   end
 
   root 'appointments#index'
