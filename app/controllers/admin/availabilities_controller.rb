@@ -1,7 +1,5 @@
 class Admin::AvailabilitiesController < Admin::ApplicationController
 
-  layout 'admin'.freeze
-
   def index
     @availabilities = Availability.order(effective_date: :asc)
     @availability = Availability.new

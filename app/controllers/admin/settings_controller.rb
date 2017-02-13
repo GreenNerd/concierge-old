@@ -1,7 +1,5 @@
 class Admin::SettingsController < Admin::ApplicationController
 
-  layout 'admin'.freeze
-
   before_action :set_current_setting
 
   def show

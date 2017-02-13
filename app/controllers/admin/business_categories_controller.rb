@@ -1,7 +1,5 @@
 class Admin::BusinessCategoriesController < Admin::ApplicationController
 
-  layout 'admin'.freeze
-
   def index
     @business_categories = BusinessCategory.all
     @business_category = BusinessCategory.new
