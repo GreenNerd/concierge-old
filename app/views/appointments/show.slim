@@ -31,3 +31,9 @@ h3.title 您的预约
       span.list-group-item-label 业务办理窗口
     .weui-flex__item
       span.list-group-item-value= @appointment.business_category.business_counters.pluck(:number).join('、')
+  - if wait_number = @appointment.wait_number
+    .weui-flex.list-group-item
+      .weui-flex__item
+        span.list-group-item-label 估计前面等待人数
+      .weui-flex__item
+        span.list-group-item-value= wait_number

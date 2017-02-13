@@ -34,6 +34,15 @@ class Appointment < ApplicationRecord
     save if queue_number?
   end
 
+  def wait_number
+    return unless appoint_at&.today?
+    return unless queue_number
+
+    _queue_number = queue_number.match(/\d+/)[0].to_i
+    max_serving_number = business_category.business_counters.maximum(:serving_number).match(/\d+/)[0].to_i
+    _queue_number - max_serving_number
+  end
+
   private
 
   def ensure_clear_appointment
