@@ -67,7 +67,7 @@ class Appointment < ApplicationRecord
       rsp = machine_service.create_number(business_category.number)
 
       if rsp
-        business_category.build_counters rsp.dig(:package, :serv_counter).to_s.split('、')
+        business_category.build_counters rsp.dig(:package, :serv_counter).to_s.split(',').map(&:to_i)
         self.queue_number = rsp.dig(:package, :queue_number)
         break
       end
