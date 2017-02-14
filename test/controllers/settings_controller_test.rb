@@ -16,19 +16,19 @@ class SettingsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'title', '设置-在线排号系统'
   end
 
-  test 'should show display the tran_code' do
+  test 'should show display the inst_no' do
     get settings_url, headers: @admin_headers
-    assert_select 'div', '交易号'
+    assert_select 'div', '网点编号'
   end
 
-  test 'should update tran_code' do
-    new_tran_code = '123123'
+  test 'should update term_no' do
+    new_term_no = '123123'
 
     patch settings_url,
-      params: { setting: { tran_code: new_tran_code } },
+      params: { setting: { term_no: new_term_no } },
       headers: @admin_headers,
       xhr: true
 
-    assert_equal new_tran_code, Setting.instance.reload.tran_code
+    assert_equal new_term_no, Setting.instance.reload.term_no
   end
 end
