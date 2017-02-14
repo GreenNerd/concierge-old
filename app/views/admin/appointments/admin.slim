@@ -1,0 +1,20 @@
+h1.title 排号机管理
+
+.weui-cells__title 选项
+.weui-cells
+  = link_to admin_business_categories_path, class: 'weui-cell weui-cell_access' do
+    .weui-cell__bd
+      p 业务类型管理
+    .weui-cell__ft
+  = link_to admin_availabilities_path, class: 'weui-cell weui-cell_access' do
+    .weui-cell__bd
+      p 休息日期管理
+    .weui-cell__ft
+  = link_to admin_removeappointment_path, class: 'weui-cell weui-cell_access' do
+    .weui-cell__bd
+      p 预约删除管理
+    .weui-cell__ft
+  = link_to admin_settings_path, class: 'weui-cell weui-cell_access' do
+    .weui-cell__bd
+      p 参数设置管理
+    .weui-cell__ft

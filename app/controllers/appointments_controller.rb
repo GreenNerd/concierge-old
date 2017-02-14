@@ -31,6 +31,16 @@ class AppointmentsController < ApplicationController
     end
   end
 
+  def destroy
+    @appointment = Appointment.find_by id: params[:id]
+    @appointment.destroy if @appointment
+
+    respond_to do |format|
+      format.html { redirect_to admin_removeappointment_path }
+      format.js { render layout: false }
+    end
+  end
+
   private
 
   def appointment_params

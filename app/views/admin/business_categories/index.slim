@@ -1,0 +1,34 @@
+h1.title 管理业务类型
+
+.weui-cells__title 状态（点击删除)
+.weui-cells
+  - @business_categories.each do |business_category|
+    = link_to admin_business_category_path(business_category), class: 'weui-cell weui-cell_access', method: :delete, data: { confirm: "确认删除 #{business_category.name}（#{business_category.prefix}）" }, remote: true do
+      .weui-cell__bd
+        span style='vertical-align: middle' = business_category.name
+        - if true
+          span.weui-badge.weui-badge-success style="margin-left: 5px;" = business_category.prefix
+        - else
+          span.weui-badge style="margin-left: 5px;" = business_category.prefix
+      .weui-cell__ft
+
+= form_for @business_category, url: admin_business_categories_url, remote: true, html: { class: 'js-business_category-form' } do |f|
+  .weui-cells__title 新增业务类型
+  .weui-cells
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 业务名称
+      .weui-cell__bd
+        = f.text_field :name, class: 'weui-input', placeholder: '格式如 "注册登记"'
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 业务编号
+      .weui-cell__bd
+        = f.text_field :number, class: 'weui-input', placeholder: '格式如 2'
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 字符前缀
+      .weui-cell__bd
+        = f.text_field :prefix, class: 'weui-input', placeholder: '格式如 B'
+    .weui-btn-area
+      = f.submit '添加', class: 'weui-btn weui-btn_primary', data: { disable_with: '添加中...' }
