@@ -15,3 +15,8 @@ zh-CN:
       unclear_appointment: 您有未处理的预约
       reached_limitation: 当日预约已满
       reservation_failed: 排号机处理失败
+
+  helpers:
+    submit:
+      create: 添加
+      update: 更新
