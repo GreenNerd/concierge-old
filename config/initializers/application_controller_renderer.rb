@@ -4,3 +4,6 @@
 #   http_host: 'example.org',
 #   https: false
 # )
+
+ENV['HTTP_USER'] = 'admin'
+ENV['HTTP_PASS'] = 'secret'
