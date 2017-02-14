@@ -1,6 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :check_openid
   before_action :detect_appointment, only: [:new, :index]
+  before_action :check_enable, only: [:new, :create, :index]
 
   def index
   end
@@ -19,6 +20,10 @@ class AppointmentsController < ApplicationController
     @appointment = Appointment.find_by(expired: false, openid: session[:openid])
 
     redirect_to root_path unless @appointment
+  end
+
+  def closed
+    redirect_to action: :index if Setting.instance.enable?
   end
 
   def query
@@ -40,5 +45,9 @@ class AppointmentsController < ApplicationController
   def detect_appointment
     @appointment = Appointment.find_by(expired: false, openid: session[:openid])
     redirect_to appointment_path(@appointment) if @appointment
+  end
+
+  def check_enable
+    redirect_to action: :closed unless Setting.instance.enable?
   end
 end

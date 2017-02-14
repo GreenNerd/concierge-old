@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
-  get 'appointments/query' => 'appointments#query', as: :query_appointment
-  resources :appointments, only: [:new, :create, :show, :index]
+  resources :appointments, only: [:new, :create, :show, :index] do
+    collection do
+      get :query
+      get :closed
+    end
+  end
 
   resource :settings, only: [:show, :update]
   resources :availabilities, only: [:index, :create, :destroy]
