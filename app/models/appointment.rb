@@ -72,14 +72,10 @@ class Appointment < ApplicationRecord
 
     machine_service = ::MachineService.new
 
-    3.times do |n|
-      rsp = machine_service.create_number(business_category.number)
-
-      if rsp
-        business_category.update_counters rsp.dig(:package, :serv_counter).to_s.scan(/\d+/).map(&:to_i)
-        self.queue_number = rsp.dig(:package, :queue_number)
-        break
-      end
+    rsp = machine_service.create_number(business_category.number)
+    if rsp
+      business_category.update_counters rsp.dig(:package, :serv_counter).to_s.scan(/\d+/).map(&:to_i)
+      self.queue_number = rsp.dig(:package, :queue_number)
     end
   end
 

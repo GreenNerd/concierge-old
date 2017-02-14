@@ -61,15 +61,21 @@ class MachineService
   private
 
   def post_with(url, payload)
-    rsp = RestClient.post url, payload, content_type: :xml
+    3.times do |n|
+      begin
+        rsp = RestClient.post url, payload, content_type: :xml
 
-    if rsp.code == 200
-      resp_hsh = Hash.from_xml(rsp.body)
-                     .deep_transform_keys { |key| key.to_s.underscore.to_sym }
-      return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
+        if rsp.code == 200
+          resp_hsh = Hash.from_xml(rsp.body)
+                         .deep_transform_keys { |key| key.to_s.underscore.to_sym }
+          return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
+        end
+        return nil
+      rescue Exception => e
+        Rails.logger.warn "Url: #{url}! #{e} Retry #{n}"
+        return nil if n == 2
+      end
     end
-  rescue
-    nil
   end
 
   def pack_payload(hsh)
