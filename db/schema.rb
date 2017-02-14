@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170211163411) do
+ActiveRecord::Schema.define(version: 20170213035613) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -47,6 +47,7 @@ ActiveRecord::Schema.define(version: 20170211163411) do
   create_table "business_counters", force: :cascade do |t|
     t.integer "business_category_id"
     t.integer "number"
+    t.string  "serving_number"
     t.index ["business_category_id"], name: "index_business_counters_on_business_category_id", using: :btree
   end
 

@@ -33,4 +33,16 @@ class BusinessCategoryTest < ActiveSupport::TestCase
       @business_category.destroy
     end
   end
+
+  test '#update_counters destorys useless counters' do
+    counter = FactoryGirl.create :business_counter, business_category: @business_category, number: 1
+    @business_category.update_counters [2]
+    assert_not BusinessCounter.exists?(counter.id)
+  end
+
+  test '#update_counters creates new counters' do
+    assert_difference 'BusinessCounter.count', 1 do
+      @business_category.update_counters [2]
+    end
+  end
 end
