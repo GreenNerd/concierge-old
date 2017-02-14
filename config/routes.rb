@@ -6,8 +6,10 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :settings, only: [:show, :update]
-  resources :availabilities, only: [:index, :create, :destroy]
+  namespace :admin do
+    resource :settings, only: [:show, :update]
+    resources :availabilities, only: [:index, :create, :destroy]
+  end
 
   root 'appointments#index'
 end
