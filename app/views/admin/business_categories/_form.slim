@@ -1,0 +1,20 @@
+= form_for [:admin, @business_category], remote: true do |f|
+  .weui-cells__title= form_title
+  .weui-cells
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 业务名称
+      .weui-cell__bd
+        = f.text_field :name, class: 'weui-input', placeholder: '请输入业务名称'
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 字符前缀
+      .weui-cell__bd
+        = f.text_field :prefix, class: 'weui-input', placeholder: '请输入字符前缀'
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 业务编号
+      .weui-cell__bd
+        = f.text_field :number, class: 'weui-input', placeholder: '请输入业务编号'
+  .weui-btn-area
+    = f.submit nil, class: 'weui-btn weui-btn_primary', data: { disable_with: '请稍后...' }

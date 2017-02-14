@@ -1,0 +1,11 @@
+h1.title 业务类型管理
+
+.page
+  .weui-cells
+    - @business_categories.each do |category|
+      = link_to admin_business_category_path(category), class: 'weui-cell weui-cell_access' do
+        .weui-cell__bd
+          p= "#{category.prefix} #{category.name}"
+        .weui-cell__ft
+
+  = render partial: 'admin/business_categories/form', locals: { business_category: @business_category, form_title: '新增业务' }

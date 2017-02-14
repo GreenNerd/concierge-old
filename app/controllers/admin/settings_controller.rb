@@ -1,8 +1,4 @@
-class SettingsController < ApplicationController
-  http_basic_authenticate_with name: 'admin', password: 'secret'
-
-  layout 'admin'.freeze
-
+class Admin::SettingsController < Admin::ApplicationController
   before_action :set_current_setting
 
   def show
