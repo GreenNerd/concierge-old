@@ -142,4 +142,12 @@ class AppointmentTest < ActiveSupport::TestCase
       assert @appointment.save
     end
   end
+
+  test '#wait_number should return right number' do
+    @business_category.business_counters.create number: 1, serving_number: 'A003'
+    @business_category.business_counters.create number: 2, serving_number: 'A005'
+
+    @appointment.queue_number = 'A015'
+    assert_equal @appointment.wait_number, 10
+  end
 end
