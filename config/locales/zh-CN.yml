@@ -9,6 +9,10 @@ zh-CN:
         appoint_at: 预约日期
         id_number: 身份证号
         phone_number: 手机号
+      business_category:
+        prefix: 字符前缀
+        number: 业务编号
+        name: 业务名称
 
   errors:
     messages:

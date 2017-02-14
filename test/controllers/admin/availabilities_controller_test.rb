@@ -6,7 +6,7 @@ class AvailabilitiesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should get index' do
-    get availabilities_url, headers: @admin_headers
+    get admin_availabilities_url, headers: @admin_headers
     assert_response :success
   end
 end
