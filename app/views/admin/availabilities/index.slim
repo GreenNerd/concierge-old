@@ -1,30 +1,31 @@
 h1.title 放假调休设置
 
-.weui-cells__title 状态（点击删除)
-.weui-cells
-  - @availabilities.each do |availability|
-    = link_to admin_availability_path(availability), class: 'weui-cell weui-cell_access', method: :delete, data: { confirm: "确认删除 #{availability.effective_date}（#{availability.human_available}）" }, remote: true do
-      .weui-cell__bd
-        span style='vertical-align: middle' = availability.effective_date
-        - if availability.available
-          span.weui-badge.weui-badge-success style="margin-left: 5px;" = availability.human_available
-        - else
-          span.weui-badge style="margin-left: 5px;" = availability.human_available
-      .weui-cell__ft
-
-= form_for @availability, url: admin_availabilities_path, remote: true, html: { class: 'js-availability-form' } do |f|
-  .weui-cells__title 新增放假调休
+.page
+  .weui-cells__title 状态（点击删除)
   .weui-cells
-    .weui-cell
-      .weui-cell__hd
-        label.weui-label 日期
-      .weui-cell__bd
-        = f.text_field :effective_date, class: 'weui-input', placeholder: '格式如 01-01'
-    .weui-cell.weui-cell_switch
-      .weui-cell__bd 是否上班
-      .weui-cell__ft
-          label.weui-switch-cp for="enableSwitch"
-            = f.check_box :available, class: 'weui-switch-cp__input', id: "enableSwitch"
-            .weui-switch-cp__box
-    .weui-btn-area
-      = f.submit '添加', class: 'weui-btn weui-btn_primary', data: { disable_with: '添加中...' }
+    - @availabilities.each do |availability|
+      = link_to admin_availability_path(availability), class: 'weui-cell weui-cell_access', method: :delete, data: { confirm: "确认删除 #{availability.effective_date}（#{availability.human_available}）" }, remote: true do
+        .weui-cell__bd
+          span style='vertical-align: middle' = availability.effective_date
+          - if availability.available
+            span.weui-badge.weui-badge-success style="margin-left: 5px;" = availability.human_available
+          - else
+            span.weui-badge style="margin-left: 5px;" = availability.human_available
+        .weui-cell__ft
+
+  = form_for @availability, url: admin_availabilities_path, remote: true, html: { class: 'js-availability-form' } do |f|
+    .weui-cells__title 新增放假调休
+    .weui-cells
+      .weui-cell
+        .weui-cell__hd
+          label.weui-label 日期
+        .weui-cell__bd
+          = f.text_field :effective_date, class: 'weui-input', placeholder: '格式如 01-01'
+      .weui-cell.weui-cell_switch
+        .weui-cell__bd 是否上班
+        .weui-cell__ft
+            label.weui-switch-cp for="enableSwitch"
+              = f.check_box :available, class: 'weui-switch-cp__input', id: "enableSwitch"
+              .weui-switch-cp__box
+      .weui-btn-area
+        = f.submit '添加', class: 'weui-btn weui-btn_primary', data: { disable_with: '添加中...' }
