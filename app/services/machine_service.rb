@@ -6,7 +6,7 @@ class MachineService
     numbercount: '694016',
     servingnumber: '694018',
     passcount: '694017'
-  }
+  }.freeze
 
   def initialize
     @inst_no = Setting.instance.inst_no
@@ -60,20 +60,22 @@ class MachineService
 
   private
 
-  def post_with(url, payload)
-    3.times do |n|
-      begin
-        rsp = RestClient.post url, payload, content_type: :xml
+  def post_with(url, payload, retries: 3)
+    begin
+      rsp = RestClient.post url, payload, content_type: :xml
 
-        if rsp.code == 200
-          resp_hsh = Hash.from_xml(rsp.body)
-                         .deep_transform_keys { |key| key.to_s.underscore.to_sym }
-          return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
-        end
-        return nil
-      rescue Exception => e
-        Rails.logger.warn "Url: #{url}! #{e} Retry #{n}"
-        return nil if n == 2
+      if rsp.code == 200
+        rsp_hsh = Hash.from_xml(rsp.body)
+                      .deep_transform_keys { |key| key.to_s.underscore.to_sym }
+        return rsp_hsh if rsp_hsh.dig(:package, :rsp_code) == '0'.freeze
+      end
+    rescue Exception => e
+      retries -= 1
+      if retries > 0
+        retry
+      else
+        Rails.logger.warn "MachineServiceError: #{url} Retry #{n}. (#{e})"
+        return
       end
     end
   end
