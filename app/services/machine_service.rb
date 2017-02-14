@@ -1,14 +1,20 @@
 require 'rest-client'
 
 class MachineService
+  TRAN_CDOE = {
+    create_number: '694012',
+    numbercount: '694016',
+    servingnumber: '694018',
+    passcount: '694017'
+  }.freeze
+
   def initialize
-    @tran_code = Setting.instance.tran_code
     @inst_no = Setting.instance.inst_no
     @term_no = Setting.instance.term_no
   end
 
   def create_number(biz_type)
-    payload = pack_payload(tran_code: @tran_code,
+    payload = pack_payload(tran_code: TRAN_CDOE[:create_number],
                            inst_no: @inst_no,
                            biz_type: biz_type,
                            term_no: @term_no)
@@ -20,7 +26,7 @@ class MachineService
 
   # get the the total of appointment number of the day
   def number_count(biz_type)
-    payload = pack_payload(tran_code: @tran_code,
+    payload = pack_payload(tran_code: TRAN_CDOE[:numbercount],
                            biz_type: biz_type,
                            term_no: @term_no)
 
@@ -31,7 +37,7 @@ class MachineService
 
   # get the service terminal serving number
   def serving_number(biz_type, serv_counter)
-    payload = pack_payload(tran_code: @tran_code,
+    payload = pack_payload(tran_code: TRAN_CDOE[:servingnumber],
                            biz_type: biz_type,
                            serv_counter: serv_counter,
                            term_no: @term_no)
@@ -43,7 +49,7 @@ class MachineService
 
   # get the passed appointment number the day
   def pass_count(biz_type)
-    payload = pack_payload(tran_code: @tran_code,
+    payload = pack_payload(tran_code: TRAN_CDOE[:passcount],
                            biz_type: biz_type,
                            term_no: @term_no)
 
@@ -54,16 +60,24 @@ class MachineService
 
   private
 
-  def post_with(url, payload)
-    rsp = RestClient.post url, payload, content_type: :xml
+  def post_with(url, payload, retries: 3)
+    begin
+      rsp = RestClient.post url, payload, content_type: :xml
 
-    if rsp.code == 200
-      resp_hsh = Hash.from_xml(rsp.body)
-                     .deep_transform_keys { |key| key.to_s.underscore.to_sym }
-      return resp_hsh if resp_hsh.dig(:package, :rsp_code) == '0'.freeze
+      if rsp.code == 200
+        rsp_hsh = Hash.from_xml(rsp.body)
+                      .deep_transform_keys { |key| key.to_s.underscore.to_sym }
+        return rsp_hsh if rsp_hsh.dig(:package, :rsp_code) == '0'.freeze
+      end
+    rescue Exception => e
+      retries -= 1
+      if retries > 0
+        retry
+      else
+        Rails.logger.warn "MachineServiceError: #{url} Retry #{n}. (#{e})"
+        return
+      end
     end
-  rescue
-    nil
   end
 
   def pack_payload(hsh)

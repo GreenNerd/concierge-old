@@ -17,8 +17,7 @@ class Admin::SettingsController < Admin::ApplicationController
   end
 
   def setting_params
-    params.require(:setting).permit(:tran_code,
-                                    :inst_no,
+    params.require(:setting).permit(:inst_no,
                                     :term_no,
                                     :counter_counter,
                                     :enable,
