@@ -90,10 +90,13 @@ class Appointment < ApplicationRecord
   end
 
   def check_window_time
-    end_at = Setting.instance.appoint_end_at
+    begin_at = Time.zone.parse(Setting.instance.appoint_begin_at.to_s)
+    return unless begin_at.present?
+
+    end_at = Time.zone.parse(Setting.instance.appoint_end_at.to_s)
     return unless end_at.present?
 
-    unless Time.zone.parse(appoint_begin_at) < Time.zone.now && Time.zone.now < Time.zone.parse(end_at)
+    unless begin_at <= Time.zone.now && Time.zone.now <= end_at
       errors.add(:base, :out_of_window_time)
     end
   end
