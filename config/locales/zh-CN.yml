@@ -15,6 +15,7 @@ zh-CN:
       unclear_appointment: 您有未处理的预约
       reached_limitation: 当日预约已满
       reservation_failed: 排号机处理失败
+      out_of_window_time: 还没到预约时间
 
   helpers:
     submit:

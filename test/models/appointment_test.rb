@@ -101,7 +101,7 @@ class AppointmentTest < ActiveSupport::TestCase
 
   test 'should be invalid if beyond appoint_end_at' do
     Setting.instance.update(appoint_end_at: '20:00')
-    Timecop.freeze(@avaiable_appoint_at + 21.hours) do
+    Timecop.freeze(Time.zone.parse(Setting.instance.appoint_end_at).advance(hours: 1)) do
       assert_not @appointment.valid?
     end
   end
