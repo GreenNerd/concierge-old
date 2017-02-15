@@ -6,4 +6,8 @@ module ApplicationHelper
       '在线排号系统'
     end
   end
+
+  def tabbar_item_class(name)
+    controller_name.to_sym == name ? 'weui-tabbar__item weui-bar__item_on'.freeze : 'weui-tabbar__item'.freeze
+  end
 end
