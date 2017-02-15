@@ -25,7 +25,7 @@ class Setting < ApplicationRecord
   end
 
   def set_or_update_sync_job
-    return unless avoid_scheduler?
+    return if avoid_scheduler?
 
     sync_job&.unschedule
 
@@ -37,7 +37,7 @@ class Setting < ApplicationRecord
   end
 
   def set_or_update_appoint_job
-    return unless avoid_scheduler?
+    return if avoid_scheduler?
 
     appointment_reset_job&.unschedule
 
