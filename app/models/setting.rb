@@ -41,9 +41,9 @@ class Setting < ApplicationRecord
 
     appointment_reset_job&.unschedule
 
-    if appoint_begin_at.present? && first_at = Time.zone.parse(appoint_begin_at.to_s)
+    if first_at = Time.zone.parse(appoint_begin_at.to_s)
       if first_at.past?
-        first_at = if Time.zone.now > Time.zone.parse(appoint_end_at.to_s)
+        first_at = if Time.zone.parse(appoint_end_at.to_s) && Time.zone.now > Time.zone.parse(appoint_end_at.to_s)
                      first_at.tomorrow
                    else
                      :now
