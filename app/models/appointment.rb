@@ -33,7 +33,7 @@ class Appointment < ApplicationRecord
   def reserve!
     reserve_from_machine
 
-    save if queue_number?
+    save(validate: false) if queue_number?
   end
 
   def wait_number
