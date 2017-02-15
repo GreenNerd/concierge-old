@@ -43,18 +43,14 @@ class Setting < ApplicationRecord
 
     if appoint_begin_at.present? && first_at = Time.zone.parse(appoint_begin_at)
       if first_at.past?
-        if Time.now > Time.zone.parse(appoint_end_at)
-          first_at = first_at.tomorrow
-        else
-          first_at = :now
-        end
+        first_at = if Time.zone.now > Time.zone.parse(appoint_end_at)
+                     first_at.tomorrow
+                   else
+                     :now
+                   end
       end
 
-      if first_at == :now
-        self.appointment_reset_job = Rufus::Scheduler.singleton.every '1d'.freeze, AppointmentResetHandler.new, first: :now, job: true
-      else
-        self.appointment_reset_job = Rufus::Scheduler.singleton.every '1d'.freeze, AppointmentResetHandler.new, first_at: first_at, job: true
-      end
+      self.appointment_reset_job = Rufus::Scheduler.singleton.every '1d'.freeze, AppointmentResetHandler.new, first_at: first_at, job: true
     else
       self.appointment_reset_job = nil
     end
