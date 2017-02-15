@@ -7,6 +7,7 @@ class Appointment < ApplicationRecord
   validate :ensure_clear_appointment, on: :create
   validate :ensure_appoint_at_within_range
   validate :ensure_available
+  validate :check_window_time, on: :create
 
   belongs_to :business_category
 
@@ -86,5 +87,14 @@ class Appointment < ApplicationRecord
 
   def update_queue_number_of_business_category
     business_category.update queue_number: queue_number
+  end
+
+  def check_window_time
+    end_at = Setting.instance.appoint_end_at
+    return unless end_at.present?
+
+    unless Time.zone.parse(end_at) < Time.zone.now && Time.zone.now < Time.zone.parse(end_at)
+      errors.add(:base, :out_of_window_time)
+    end
   end
 end

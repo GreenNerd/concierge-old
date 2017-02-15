@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170214064657) do
+ActiveRecord::Schema.define(version: 20170215012516) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20170214064657) do
     t.integer  "sync_interval"
     t.string   "appoint_begin_at"
     t.string   "openid_server"
+    t.string   "appoint_end_at"
   end
 
   add_foreign_key "appointments", "business_categories"

@@ -25,6 +25,7 @@ class Admin::SettingsController < Admin::ApplicationController
                                     :limitation,
                                     :sync_interval,
                                     :appoint_begin_at,
+                                    :appoint_end_at,
                                     :openid_server)
   end
 end
