@@ -23,7 +23,7 @@ h3.title 预约排号
   .weui-cells
     .weui-cell
       .weui-cell__bd
-        = f.text_field :phone_number, class: 'weui-input', placeholder: '请输入手机号码'
+        = f.telephone_field :phone_number, class: 'weui-input', placeholder: '请输入手机号码'
 
   .weui-btn-area
     = f.submit '预约', class: 'weui-btn weui-btn_primary', data: { disable_with: '预约中...' }
