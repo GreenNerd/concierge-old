@@ -71,10 +71,11 @@ class MachineService
       end
     rescue Exception => e
       retries -= 1
+
       if retries > 0
         retry
       else
-        Rails.logger.warn "MachineServiceError: #{url} Retry #{n}. (#{e})"
+        Rails.logger.warn "MachineServiceError: #{url}(#{e})"
         return
       end
     end
