@@ -93,7 +93,7 @@ class Appointment < ApplicationRecord
     end_at = Setting.instance.appoint_end_at
     return unless end_at.present?
 
-    unless Time.zone.parse(end_at) < Time.zone.now && Time.zone.now < Time.zone.parse(end_at)
+    unless Time.zone.parse(begin_at) < Time.zone.now && Time.zone.now < Time.zone.parse(end_at)
       errors.add(:base, :out_of_window_time)
     end
   end
