@@ -5,13 +5,17 @@ class SyncHandler
     service = ::MachineService.new
 
     number_count_rsp = service.number_count(0)
-    pass_count_rsp = service.pass_count(0)
-
-    if number_count_rsp && pass_count_rsp
+    if number_count_rsp
       Setting.total_number_count = number_count_rsp.dig :package, :qcount
+    else
+      Rails.logger.warn "SyncHandler: Failed to get number_count!"
+    end
+
+    pass_count_rsp = service.pass_count(0)
+    if pass_count_rsp
       Setting.pass_number_count = pass_count_rsp.dig :package, :qcount
     else
-      Rails.logger.warn "SyncHandler: Failed to get number_count and pass_count!"
+      Rails.logger.warn "SyncHandler: Failed to get pass_count!"
     end
 
     BusinessCounter.find_each do |counter|
