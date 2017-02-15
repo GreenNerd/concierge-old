@@ -30,4 +30,4 @@ h2.title= @appointment.queue_number
 
   .weui-footer
     p.weui-footer__links
-      = link_to '删除', [:admin, @appointment], class: 'weui-footer__link warn-text', data: { disable_with: '删除中...', confirm: '确认删除？' }
+      = link_to '删除', [:admin, @appointment], class: 'weui-footer__link warn-text', method: :delete, data: { disable_with: '删除中...', confirm: '确认删除？' }
