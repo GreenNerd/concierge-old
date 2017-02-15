@@ -6,5 +6,7 @@ FactoryGirl.define do
     enable false
     mip 'http://192.168.18.88:8080'
     limitation 10
+    appoint_begin_at '00:00'
+    appoint_end_at '24:00'
   end
 end

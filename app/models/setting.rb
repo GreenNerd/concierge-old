@@ -56,6 +56,16 @@ class Setting < ApplicationRecord
     end
   end
 
+  def in_window_time?
+    begin_at = Time.zone.parse(appoint_begin_at.to_s)
+    return unless begin_at.present?
+
+    end_at = Time.zone.parse(appoint_end_at.to_s)
+    return unless end_at.present?
+
+    begin_at <= Time.zone.now && Time.zone.now <= end_at
+  end
+
   def avoid_scheduler?
     Rails.env.test? || defined?(Rails::Console)
   end
