@@ -43,6 +43,7 @@ body {
 
 .list-groups {
   border-top: 1px solid $border-color;
+  margin-bottom: 1em;
 
   .list-group-item {
     padding: 1.3em .5em .5em;
@@ -95,8 +96,11 @@ body {
   }
 }
 
-.weui-btn_huge {
-  padding: 2em;
+.button-sp-area {
+  margin: 0 auto;
+  padding: 15px 0;
+  width: 60%;
+  text-align: center;
 }
 
 // text helper
