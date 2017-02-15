@@ -41,8 +41,10 @@ class Appointment < ApplicationRecord
     return unless queue_number
 
     _queue_number = queue_number.match(/\d+/)[0].to_i
-    max_serving_number = business_category.business_counters.maximum(:serving_number).match(/\d+/)[0].to_i
-    _queue_number - max_serving_number
+    max_serving_number = business_category.business_counters.maximum(:serving_number)
+    max_serving_number = max_serving_number.to_s[/\d+/]
+    return unless max_serving_number
+    _queue_number - max_serving_number.to_i
   end
 
   private
