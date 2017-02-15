@@ -99,6 +99,13 @@ class AppointmentTest < ActiveSupport::TestCase
     assert @appointment.valid?
   end
 
+  test 'should be invalid if beyond appoint_end_at' do
+    Setting.instance.update(appoint_end_at: '20:00')
+    Timecop.freeze(@avaiable_appoint_at + 21.hours) do
+      assert_not @appointment.valid?
+    end
+  end
+
   test 'should failed when reserve failed' do
     failed_xml = <<-EOF
       <?xml version="1.0" encoding="UTF-8" ?>
