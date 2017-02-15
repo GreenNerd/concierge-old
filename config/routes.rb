@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resource :settings, only: [:show, :update]
     resources :availabilities, only: [:index, :create, :destroy]
     resources :business_categories
+    resources :appointments, only: [:index, :show, :destroy]
   end
 
   root 'appointments#index'
