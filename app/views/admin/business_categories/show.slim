@@ -3,7 +3,6 @@ h2.title= @business_category.name
 .page
   = render partial: 'admin/business_categories/form', locals: { business_category: @business_category, form_title: '业务属性' }
 
-  .weui-footer.weui-footer_fixed-bottom
+  .weui-footer
     p.weui-footer__links
-      = link_to '返回', [:admin, :business_categories], class: 'weui-footer__link'
       = link_to '删除', [:admin, @business_category], class: 'weui-footer__link warn-text', method: :delete, remote: true, data: { disable_with: '删除中...', confirm: '确认删除？' }

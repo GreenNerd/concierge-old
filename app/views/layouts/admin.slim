@@ -8,4 +8,19 @@ html
     = csrf_meta_tags
 
   body.admin
-    = yield
+    .weui-tab
+      .weui-tab__panel
+        = yield
+    .weui-tabbar
+      = link_to [:admin, :appointments], class: tabbar_item_class(:appointments) do
+        i.weui-tabbar__icon.icon-schedule
+        p class='weui-tabbar__label' 预约
+      = link_to [:admin, :availabilities], class: tabbar_item_class(:availabilities) do
+        i.weui-tabbar__icon.icon-date_range
+        p class='weui-tabbar__label' 节假日
+      = link_to [:admin, :business_categories], class: tabbar_item_class(:business_categories) do
+        i.weui-tabbar__icon.icon-storage
+        p class='weui-tabbar__label' 业务
+      = link_to [:admin, :settings], class: tabbar_item_class(:settings) do
+        i.weui-tabbar__icon.icon-settings
+        p class='weui-tabbar__label' 设置
