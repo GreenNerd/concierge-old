@@ -22,8 +22,6 @@ class Setting < ApplicationRecord
   def self.warmup
     instance.set_or_update_appoint_job
     instance.set_or_update_sync_job
-    Rufus::Scheduler.singleton.in '0s'.freeze, SyncHandler.new
-    Rufus::Scheduler.singleton.in '0s'.freeze, AppointmentResetHandler.new
   end
 
   def set_or_update_sync_job
@@ -32,7 +30,7 @@ class Setting < ApplicationRecord
     sync_job&.unschedule
 
     if sync_interval.present?
-      self.sync_job = Rufus::Scheduler.singleton.every "#{sync_interval.to_i}m", SyncHandler.new, job: true
+      self.sync_job = Rufus::Scheduler.singleton.every "#{sync_interval.to_i}m", SyncHandler.new, job: true, first: :now
     elsif sync_job
       self.sync_job = nil
     end
@@ -44,10 +42,16 @@ class Setting < ApplicationRecord
     appointment_reset_job&.unschedule
 
     if appoint_begin_at.present? && first_at = Time.zone.parse(appoint_begin_at)
-      first_at = first_at.tomorrow if first_at.past?
+      if first_at.past?
+        first_at = if Time.zone.now > Time.zone.parse(appoint_end_at)
+                     first_at.tomorrow
+                   else
+                     :now
+                   end
+      end
 
       self.appointment_reset_job = Rufus::Scheduler.singleton.every '1d'.freeze, AppointmentResetHandler.new, first_at: first_at, job: true
-    elsif sync_job
+    else
       self.appointment_reset_job = nil
     end
   end
