@@ -1,0 +1,53 @@
+$font-path: "fonts" !default;
+
+$icon-schedule: "\e900";
+$icon-date_range: "\e901";
+$icon-storage: "\e902";
+$icon-settings: "\e903";
+
+@font-face {
+  font-family: 'concierge';
+  src: font-url('concierge.eot');
+  src: font-url('concierge.eot') format('embedded-opentype'),
+       font-url('concierge.ttf') format('truetype'),
+       font-url('concierge.woff') format('woff'),
+       font-url('concierge.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+i {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'concierge' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-schedule {
+  &:before {
+    content: $icon-schedule;
+  }
+}
+.icon-date_range {
+  &:before {
+    content: $icon-date_range;
+  }
+}
+.icon-storage {
+  &:before {
+    content: $icon-storage;
+  }
+}
+.icon-settings {
+  &:before {
+    content: $icon-settings;
+  }
+}
