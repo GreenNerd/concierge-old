@@ -13,7 +13,8 @@ class Appointment < ApplicationRecord
   scope :unreserved, -> { where(queue_number: nil) }
   scope :past, -> { where('appoint_at < ?', Date.today) }
   scope :unexpired, -> { where(expired: false) }
-  scope :today, -> { where(appoint_at: Date.today) }
+  scope :today, -> { on(Date.today) }
+  scope :on, -> (day) { where(appoint_at: day) }
 
   before_validation :upcase_id_number
   before_create :reserve, if: proc { |appointment| appointment.appoint_at.today? }

@@ -1,0 +1,17 @@
+h1.title 预约管理
+
+.page
+  - Availability.next_available_dates(days: 5).each do |day|
+    .weui-cells__title= day
+    .weui-cells
+      - appointments = Appointment.unexpired.on(day).load
+      - if appointments.count.zero?
+        .weui-cell
+          .weui-cell__bd.muted-text
+            p 暂无排号
+      - else
+        - appointments.each do |appointment|
+          = link_to admin_appointment_path(appointment), class: 'weui-cell weui-cell_access' do
+            .weui-cell__bd
+              p= "#{appointment.queue_number}-#{appointment.id_number}"
+            .weui-cell__ft
