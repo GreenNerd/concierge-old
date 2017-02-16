@@ -8,10 +8,11 @@ html
     = csrf_meta_tags
 
   body
-    .header.weui-flex
-      = image_tag 'cdht-logo.png'
-      .header-text.weui-flex-item
-        h4 成都市高新区政务服务中心
-        small 成都市天府大道18号高新国际广场E座2楼201
+    - unless @header_off
+      .header.weui-flex
+        = image_tag 'cdht-logo.png'
+        .header-text.weui-flex-item
+          h4 成都市高新区政务服务中心
+          small 成都市天府大道18号高新国际广场E座2楼201
 
     = yield

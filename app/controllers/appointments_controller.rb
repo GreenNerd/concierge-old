@@ -4,6 +4,7 @@ class AppointmentsController < ApplicationController
   before_action :check_enable, only: [:new, :create, :index]
 
   def index
+    @header_off = true
   end
 
   def new
