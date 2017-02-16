@@ -2,6 +2,7 @@ require 'test_helper'
 
 class Admin::AppointmentsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    Setting.instance.update FactoryGirl.attributes_for(:setting)
     xml_res = <<-EOF
       <?xml version="1.0" encoding="UTF-8" ?>
       <Package>

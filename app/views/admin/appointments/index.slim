@@ -13,5 +13,5 @@ h1.title 预约管理
         - appointments.each do |appointment|
           = link_to admin_appointment_path(appointment), class: 'weui-cell weui-cell_access' do
             .weui-cell__bd
-              p= "#{appointment.queue_number}-#{appointment.id_number}"
+              p= [appointment.queue_number, appointment.id_number].join('-')
             .weui-cell__ft

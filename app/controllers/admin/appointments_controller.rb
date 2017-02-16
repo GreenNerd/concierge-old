@@ -15,11 +15,7 @@ class Admin::AppointmentsController < Admin::ApplicationController
   private
 
   def set_appointment
-    @appointment = current_appointments.find_by(id: params[:id])
+    @appointment = Appointment.find_by(id: params[:id])
     redirect_to action: :index unless @appointment
-  end
-
-  def current_appointments
-    @current_appointments ||= Appointment.unexpired.today
   end
 end
