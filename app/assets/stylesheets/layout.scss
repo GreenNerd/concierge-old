@@ -171,6 +171,23 @@ body {
   }
 }
 
+.operations-area-wrap {
+  flex-grow: 1;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  padding-bottom: 2em;
+  background-color: #fff;
+
+  .operations-area {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    padding: 2em;
+    text-align: center;
+  }
+}
+
 .button-sp-area {
   margin: 0 auto;
   padding: 15px 0;

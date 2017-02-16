@@ -1,7 +1,7 @@
 class AppointmentsController < ApplicationController
   before_action :check_openid
   before_action :detect_appointment, only: [:new, :index]
-  before_action :check_enable, only: [:new, :create, :index]
+  before_action :check_enable, only: [:new, :create]
 
   def index
     @header_off = true
@@ -24,7 +24,6 @@ class AppointmentsController < ApplicationController
   end
 
   def closed
-    redirect_to action: :index if Setting.instance.enable?
   end
 
   def query
@@ -49,6 +48,6 @@ class AppointmentsController < ApplicationController
   end
 
   def check_enable
-    redirect_to action: :closed unless Setting.instance.enable?
+    redirect_to closed_appointments_path(station: :b) unless Setting.instance.enable?
   end
 end

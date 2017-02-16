@@ -1,23 +1,23 @@
 .station-wrapper
   .station
     = link_to new_appointment_path, class: 'station-card' do
-      h2.name 成都市高新区企业注册中心
+      h2.name 成都市高新区#{Setting::STATIONS.dig(:b, :name)}
       .operation-wrapper
         .appointments-count
           .counter-text 排队人数
           .counter-value= Setting.wait_number_count
         .operation 在线排号
-      .address 成都市天府大道18号高新国际广场E座2楼201
+      .address= Setting::STATIONS.dig(:b, :address)
     .station-addition
       .description.muted-text= Setting.instance.b_text
   .station
-    = link_to new_appointment_path, class: 'station-card' do
-      h2.name 成都市高新区政务服务大厅
+    = link_to closed_appointments_path(station: :a), class: 'station-card' do
+      h2.name 成都市高新区#{Setting::STATIONS.dig(:a, :name)}
       .operation-wrapper
         .appointments-count
           .counter-text 排队人数
           .counter-value= Setting.instance.a_appointments_count.to_i
         .operation 在线排号
-      .address 成都市天府大道18号高新国际广场A座3楼
+      .address= Setting::STATIONS.dig(:a, :address)
     .station-addition
       .description.muted-text= Setting.instance.a_text

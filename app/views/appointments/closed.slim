@@ -1,7 +1,7 @@
 .operations-area-wrap
   .operations-area
-    p 线上排号已关闭
+    p 非常抱歉，目前#{current_station[:name]}不提供在线排号，请您到现场取号。
 
-/.weui-footer.weui-footer_fixed-bottom
-/  p.weui-footer__links
-/    = link_to '已预约，点击查询', query_appointment_path, class: 'weui-footer__link'
+.weui-footer.weui-footer_fixed-bottom
+  p.weui-footer__links
+    = link_to '返回', appointments_path, class: 'weui-footer__link'

@@ -5,7 +5,7 @@ class AppointmentsControllerTest < ActionDispatch::IntegrationTest
     Setting.instance.update enable: false
 
     get new_appointment_url, params: { openid: '123' }
-    assert_redirected_to closed_appointments_url
+    assert_redirected_to closed_appointments_url(station: :b)
   end
 
   test 'should get new successfully' do
