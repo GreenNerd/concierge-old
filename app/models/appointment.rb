@@ -8,6 +8,7 @@ class Appointment < ApplicationRecord
   validate :ensure_appoint_at_within_range
   validate :ensure_available
   validate :check_window_time, on: :create
+  validate :check_id_number
 
   belongs_to :business_category
 
@@ -94,6 +95,29 @@ class Appointment < ApplicationRecord
   def check_window_time
     unless Setting.instance.in_window_time?
       errors.add(:base, :out_of_window_time)
+    end
+  end
+
+  def check_id_number
+    return unless (/\A[1-9]\d{16}[0-9X]\Z/).match(id_number.to_s)
+
+    numbers = id_number.split('')
+    last = numbers.pop
+    numbers.map!(&:to_i)
+    multiply_array = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2]
+
+    sum = numbers.map.with_index do |number, n|
+               number * multiply_array[n]
+             end.sum
+    remainder = sum % 11
+
+    remainder_map = {
+      0 => '1', 1 => '0', 2 => 'X', 3 => '9', 4 => '8', 5 => '7',
+      6 => '6', 7 => '5', 8 => '4', 9 => '3', 10 => '2'
+    }
+
+    if remainder_map[remainder] != last
+      errors.add(:base, :invalid_id_number)
     end
   end
 end
