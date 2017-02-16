@@ -24,7 +24,7 @@ class AppointmentResetHandlerTest < ActiveSupport::TestCase
 
     Timecop.freeze('2017-2-8')
     @appointment_1 = FactoryGirl.create :appointment, business_category: @business_category, appoint_at: '2017-2-9', openid: '123'
-    @appointment_2 = FactoryGirl.create :appointment, business_category: @business_category, appoint_at: '2017-2-10', id_number: '510111111111131231', openid: '456'
+    @appointment_2 = FactoryGirl.create :appointment, business_category: @business_category, appoint_at: '2017-2-10', id_number: '411722197303195710', openid: '456'
     Timecop.freeze('2017-2-9')
 
     @scheduler = Rufus::Scheduler.new

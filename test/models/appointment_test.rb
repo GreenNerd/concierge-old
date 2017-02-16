@@ -56,8 +56,18 @@ class AppointmentTest < ActiveSupport::TestCase
     assert_not @appointment.valid?
   end
 
+  test 'should be valid if  id_number checksum is right' do
+    @appointment.id_number = '432831196411150810'
+    assert @appointment.valid?
+  end
+
+  test 'should be invalid if  id_number checksum is wrong' do
+    @appointment.id_number = '432831196411150811'
+    assert_not @appointment.valid?
+  end
+
   test 'should save with low or upper letter on id_number' do
-    new_id_number = '12345678901234567x'
+    new_id_number = '43110319890319825x'
     @appointment.id_number = new_id_number
 
     assert @appointment.valid?
