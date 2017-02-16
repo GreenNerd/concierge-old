@@ -12,7 +12,7 @@ html
       .header.weui-flex
         = image_tag 'cdht-logo.png'
         .header-text.weui-flex-item
-          h4 成都市高新区企业注册中心
-          small 成都市天府大道18号高新国际广场E座2楼201
+          h4 成都市高新区#{current_station[:name]}
+          small= current_station[:address]
 
     = yield

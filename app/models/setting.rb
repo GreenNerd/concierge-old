@@ -1,4 +1,15 @@
 class Setting < ApplicationRecord
+  STATIONS = {
+    a: {
+      name: '政务服务大厅',
+      address: '成都市天府大道18号高新国际广场A座3楼'
+    },
+    b: {
+      name: '企业注册中心',
+      address: '成都市天府大道18号高新国际广场E座2楼201'
+    }
+  }.freeze
+
   cattr_accessor :setting
 
   cattr_accessor :sync_job

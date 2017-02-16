@@ -1,6 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  helper_method :current_station
+
+  def current_station
+    @current_station ||= Setting::STATIONS.fetch(params[:station]&.to_sym){ Setting::STATIONS[:a] }
+  end
+
   private
 
   def check_openid
