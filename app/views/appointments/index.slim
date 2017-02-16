@@ -1,8 +1,23 @@
-.operations-area-wrap
-  .operations-area
-    = link_to '在线排号', new_appointment_path, class: 'weui-btn weui-btn_primary weui-btn_huge'
-    .appointments-count = "排队人数：#{Setting.wait_number_count}"
-
-/.weui-footer.weui-footer_fixed-bottom
-/  p.weui-footer__links
-/    = link_to '已预约，点击查询', query_appointment_path, class: 'weui-footer__link'
+.station-wrapper
+  .station
+    = link_to new_appointment_path, class: 'station-card' do
+      h2.name 成都市高新区企业注册中心
+      .operation-wrapper
+        .appointments-count
+          .counter-text 排队人数
+          .counter-value= Setting.wait_number_count
+        .operation 在线排号
+      .address 成都市天府大道18号高新国际广场E座2楼201
+    .station-addition
+      .description.muted-text 注册业务, 注册业务, 注册业务, 注册业务, 注册业务
+  .station
+    = link_to new_appointment_path, class: 'station-card' do
+      h2.name 成都市高新区政务服务大厅
+      .operation-wrapper
+        .appointments-count
+          .counter-text 排队人数
+          .counter-value= Setting.wait_number_count
+        .operation 在线排号
+      .address 成都市天府大道18号高新国际广场A座3楼
+    .station-addition
+      .description.muted-text 注册业务, 注册业务, 注册业务, 注册业务, 注册业务

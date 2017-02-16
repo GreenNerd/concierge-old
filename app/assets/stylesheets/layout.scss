@@ -2,6 +2,31 @@ $border-color: #d9d9d9;
 
 html {
   height: 100%;
+  font-size: 16px;
+}
+
+@media only screen and (max-device-width: 320px) {
+  html {
+    font-size: 14px
+  }
+
+  .station {
+    min-height: auto!important;
+  }
+}
+
+@media only screen and (min-device-width: 414px) {
+  html {
+    font-size: 18px
+  }
+}
+
+@media only screen and (min-device-width: 415px) {
+  .station {
+    max-width: 768px;
+    width: 80%;
+    align-self: center;
+  }
 }
 
 body {
@@ -71,27 +96,77 @@ body {
 }
 
 // appointments#index
-.operations-area-wrap {
-  flex-grow: 1;
+.station-wrapper {
   display: flex;
-  align-content: center;
-  align-items: center;
-  padding-bottom: 2em;
-  background-color: #fff;
+  flex-direction: column;
+  height: 100%;
+  line-height: 1.5em;
 
-  .operations-area {
+  .station {
+    flex: 1;
     display: flex;
     flex-direction: column;
-    margin: auto;
+    text-align: center;
+    padding: 1.2rem;
+    min-height: 240px;
 
-    .appointments-count {
-      margin-top: 1.5em;
-      text-align: center;
-      color: #888;
+    .station-card {
+      color: #fff;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: .6rem;
+      padding: 1.6rem 0 1rem;
 
-      span {
-        color: #09BB07;
+      // background-color
+      background: #ff9c00;
+      background: -moz-linear-gradient(-45deg,  #ff9c00 0%, #ef6c00 100%);
+      background: -webkit-linear-gradient(-45deg,  #ff9c00 0%,#ef6c00 100%);
+      background: linear-gradient(135deg,  #ff9c00 0%,#ef6c00 100%);
+      filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff9c00', endColorstr='#ef6c00',GradientType=1 );
+      -webkit-box-shadow: 0px 2px 5px 1px rgba(189,85,0,0.35);
+      -moz-box-shadow: 0px 2px 5px 1px rgba(189,85,0,0.35);
+      box-shadow: 0px 2px 5px 1px rgba(189,85,0,0.35);
+
+      .name {
+        font-size: 1.4rem;
       }
+
+      .operation-wrapper {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 2em;
+        margin-bottom: 2em;
+        padding: 0 1.8rem;
+      }
+
+      .appointments-count {
+        .counter-text {
+          font-size: .8rem;
+        }
+
+        .counter-value {
+          font-size: 1.8rem;
+          line-height: 1.2em;
+          font-weight: 500;
+        }
+      }
+
+      .operation {
+        font-size: 1.4rem;
+        font-weight: 500;
+      }
+
+      .address {
+        font-size: .8rem;
+      }
+    }
+
+    .station-addition {
+      font-size: .8rem;
+      margin-top: .6rem;
     }
   }
 }
