@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_station
 
   def current_station
-    @current_station ||= Setting::STATIONS.fetch(params[:station]&.to_sym){ Setting::STATIONS[:a] }
+    @current_station ||= Setting::STATIONS.fetch(params[:station]&.to_sym){ Setting::STATIONS[:b] }
   end
 
   private
