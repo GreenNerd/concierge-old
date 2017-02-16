@@ -26,6 +26,9 @@ class Admin::SettingsController < Admin::ApplicationController
                                     :sync_interval,
                                     :appoint_begin_at,
                                     :appoint_end_at,
-                                    :openid_server)
+                                    :openid_server,
+                                    :a_text,
+                                    :a_appointments_count,
+                                    :b_text)
   end
 end

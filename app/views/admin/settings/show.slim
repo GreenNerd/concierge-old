@@ -9,6 +9,27 @@ h1.title 设置
             = f.check_box :enable, class: 'weui-switch-cp__input', id: "enableSwitch"
             .weui-switch-cp__box
 
+  .weui-cells__title 文案设置
+  .weui-cells
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label A 厅业务
+      .weui-cell__bd
+        = f.text_field :a_text, class: 'weui-input', placeholder: '请输入'
+
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label A 厅排队人数
+      .weui-cell__bd
+        = f.number_field :a_appointments_count, class: 'weui-input', placeholder: '请输入'
+
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label B 厅业务
+      .weui-cell__bd
+        = f.text_field :b_text, class: 'weui-input', placeholder: '请输入'
+
+
   .weui-cells__title 排号机设置
   .weui-cells
     .weui-cell
