@@ -22,6 +22,7 @@ class Admin::SettingsController < Admin::ApplicationController
                                     :counter_counter,
                                     :enable,
                                     :mip,
+                                    :advance_reservation_days,
                                     :limitation,
                                     :sync_interval,
                                     :appoint_begin_at,

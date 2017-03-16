@@ -17,6 +17,8 @@ class Setting < ApplicationRecord
   cattr_accessor :total_number_count
   cattr_accessor :pass_number_count
 
+  validates :advance_reservation_days, numericality: { only_integer: true, greater_than: 1 }
+
   after_update_commit :set_or_update_sync_job, if: :sync_interval_changed?
   after_update_commit :set_or_update_appointment_reset_job, if: :appoint_begin_at_changed?
 
