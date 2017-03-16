@@ -1,0 +1,13 @@
+default: &default
+  http_basic_authentication:
+    username: admin
+    password: secret
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

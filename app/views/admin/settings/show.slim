@@ -55,6 +55,12 @@ h1.title 设置
 
     .weui-cell
       .weui-cell__hd
+        label.weui-label 提前预约天数
+      .weui-cell__bd
+        = f.number_field :advance_reservation_days, class: 'weui-input', placeholder: '不能小于或等于 0'
+
+    .weui-cell
+      .weui-cell__hd
         label.weui-label 预约限制
       .weui-cell__bd
         = f.number_field :limitation, class: 'weui-input', placeholder: '请输入每日预约限制'
