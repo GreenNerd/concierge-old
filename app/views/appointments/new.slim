@@ -5,7 +5,7 @@ h3.title 预约排号
   .weui-cells
     .weui-cell.weui-cell_select
       .weui-cell__bd
-        = f.select :appoint_at, Availability.next_available_dates.collect { |day| ["#{day.to_s(:db)} #{I18n.l(day, format: '%A')}", day.to_s(:db)] }, {}, class: 'weui-select'
+        = f.select :appoint_at, Availability.next_available_dates(days: Setting.instance.advance_reservation_days).collect { |day| ["#{day.to_s(:db)} #{I18n.l(day, format: '%A')}", day.to_s(:db)] }, {}, class: 'weui-select'
 
   .weui-cells__title 业务类型
   .weui-cells

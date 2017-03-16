@@ -61,7 +61,7 @@ class Appointment < ApplicationRecord
   def ensure_appoint_at_within_range
     return unless appoint_at.present?
 
-    unless appoint_at.in?(Availability.next_available_dates)
+    unless appoint_at.in?(Availability.next_available_dates(days: Setting.instance.advance_reservation_days))
       errors.add(:appoint_at, :invalid)
     end
   end

@@ -1,7 +1,7 @@
 h1.title 预约管理
 
 .page
-  - Availability.next_available_dates(days: 5).each do |day|
+  - Availability.next_available_dates(days: Setting.instance.advance_reservation_days).each do |day|
     .weui-cells__title= day
     .weui-cells
       - appointments = Appointment.unexpired.on(day).load
