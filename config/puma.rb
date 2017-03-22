@@ -4,6 +4,12 @@
 # the maximum value specified for Puma. Default is set to 5 threads for minimum
 # and maximum, this matches the default thread size of Active Record.
 #
+APP_ROOT = ENV['APP_ROOT']
+pidfile "#{APP_ROOT}/tmp/puma.pid"
+state_path "#{APP_ROOT}/tmp/puma.state"
+bind "unix:///#{APP_ROOT}/tmp/puma.sock"
+activate_control_app "unix:///#{APP_ROOT}/tmp/pumactl.sock"
+
 threads_count = ENV.fetch("RAILS_MAX_THREADS") { 5 }.to_i
 threads threads_count, threads_count
 
@@ -14,6 +20,8 @@ port        ENV.fetch("PORT") { 3000 }
 # Specifies the `environment` that Puma will run in.
 #
 environment ENV.fetch("RAILS_ENV") { "development" }
+
+daemonize ENV.fetch("RAILS_DAEMONIZE") { false }
 
 # Specifies the number of `workers` to boot in clustered mode.
 # Workers are forked webserver processes. If using threads and workers together
