@@ -19,8 +19,8 @@ class Setting < ApplicationRecord
 
   validates :advance_reservation_days, numericality: { only_integer: true, greater_than: 1 }
 
-  after_update_commit :set_or_update_sync_job, if: :sync_interval_changed?
-  after_update_commit :set_or_update_appointment_reset_job, if: :appoint_begin_at_changed?
+  after_update_commit :set_or_update_sync_job, if: lambda { |s| s.previous_changes.include?(:sync_interval) }
+  after_update_commit :set_or_update_appointment_reset_job, if: lambda { |s| s.previous_changes.include?(:appoint_begin_at) }
 
   after_commit :update_singleton
 
