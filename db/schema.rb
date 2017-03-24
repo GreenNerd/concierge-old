@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170316023903) do
+ActiveRecord::Schema.define(version: 20170324024236) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,10 @@ ActiveRecord::Schema.define(version: 20170316023903) do
     t.string   "a_text"
     t.integer  "a_appointments_count"
     t.integer  "advance_reservation_days", default: 5
+    t.string   "sync_job_id"
+    t.string   "appointment_reset_job_id"
+    t.integer  "total_number_count"
+    t.integer  "pass_number_count"
   end
 
   add_foreign_key "appointments", "business_categories"

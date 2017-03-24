@@ -12,11 +12,6 @@ class Setting < ApplicationRecord
 
   cattr_accessor :setting
 
-  cattr_accessor :sync_job
-  cattr_accessor :appointment_reset_job
-  cattr_accessor :total_number_count
-  cattr_accessor :pass_number_count
-
   validates :advance_reservation_days, numericality: { only_integer: true, greater_than: 1 }
 
   after_update_commit :set_or_update_sync_job, if: lambda { |s| s.previous_changes.include?(:sync_interval) }
@@ -28,13 +23,22 @@ class Setting < ApplicationRecord
     self.setting ||= first_or_create
   end
 
-  def self.wait_number_count
-    total_number_count.to_i - pass_number_count.to_i
-  end
-
   def self.warmup
+    instance.update_columns sync_job_id: nil, appointment_reset_job_id: nil
     instance.set_or_update_appointment_reset_job
     instance.set_or_update_sync_job
+  end
+
+  def cast_appoint_begin_at
+    Time.zone.parse appoint_begin_at.to_s
+  end
+
+  def cast_appoint_end_at
+    Time.zone.parse appoint_end_at.to_s
+  end
+
+  def wait_number_count
+    total_number_count.to_i - pass_number_count.to_i
   end
 
   def set_or_update_sync_job
@@ -43,9 +47,9 @@ class Setting < ApplicationRecord
     sync_job&.unschedule
 
     if sync_interval.present?
-      self.sync_job = Rufus::Scheduler.singleton.every "#{sync_interval.to_i}m", SyncHandler.new, job: true, first: :now
+      update sync_job_id: Rufus::Scheduler.singleton.every("#{sync_interval.to_i}m", SyncHandler.new, first: :now)
     elsif sync_job
-      self.sync_job = nil
+      update sync_job_id: nil
     end
   end
 
@@ -54,29 +58,28 @@ class Setting < ApplicationRecord
 
     appointment_reset_job&.unschedule
 
-    if first_at = Time.zone.parse(appoint_begin_at.to_s)
-      if first_at.past?
-        first_at = if Time.zone.parse(appoint_end_at.to_s) && Time.zone.now > Time.zone.parse(appoint_end_at.to_s)
-                     first_at.tomorrow
+    if cast_appoint_begin_at
+      first_at = if cast_appoint_begin_at.past?
+                   if cast_appoint_end_at && Time.zone.now > cast_appoint_end_at
+                     cast_appoint_begin_at.tomorrow
                    else
                      :now
                    end
-      end
+                 else
+                   cast_appoint_begin_at
+                 end
 
-      self.appointment_reset_job = Rufus::Scheduler.singleton.every '1d'.freeze, AppointmentResetHandler.new, first_at: first_at, job: true
+      update appointment_reset_job_id: Rufus::Scheduler.singleton.every('1d'.freeze, AppointmentResetHandler.new, first_at: first_at)
     else
-      self.appointment_reset_job = nil
+      update appointment_reset_job_id: nil
     end
   end
 
   def in_window_time?
-    begin_at = Time.zone.parse(appoint_begin_at.to_s)
-    return unless begin_at.present?
+    return unless cast_appoint_begin_at.present?
+    return unless cast_appoint_end_at.present?
 
-    end_at = Time.zone.parse(appoint_end_at.to_s)
-    return unless end_at.present?
-
-    begin_at <= Time.zone.now && Time.zone.now <= end_at
+    cast_appoint_begin_at <= Time.zone.now && Time.zone.now <= cast_appoint_end_at
   end
 
   def avoid_scheduler?
@@ -85,5 +88,13 @@ class Setting < ApplicationRecord
 
   def update_singleton
     self.setting = self
+  end
+
+  def sync_job
+    sync_job_id && Rufus::Scheduler.singleton.job(sync_job_id)
+  end
+
+  def appointment_reset_job
+    appointment_reset_job_id && Rufus::Scheduler.singleton.job(appointment_reset_job_id)
   end
 end

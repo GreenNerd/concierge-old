@@ -4,8 +4,8 @@ class AppointmentResetHandler
 
     BusinessCounter.update_all serving_number: nil
 
-    Setting.total_number_count = 0
-    Setting.pass_number_count = 0
+    Setting.instance.total_number_count = 0
+    Setting.instance.pass_number_count = 0
 
     Appointment.unexpired.past.update_all(expired: true)
 

@@ -55,13 +55,13 @@ class SyncHandlerTest < ActiveSupport::TestCase
   test 'should store total number count' do
     job = @scheduler.in('0s', SyncHandler.new, job: true)
     job.call
-    assert_equal Setting.total_number_count.to_i, 17
+    assert_equal Setting.instance.total_number_count.to_i, 17
   end
 
   test 'should store pass number count' do
     job = @scheduler.in('0s', SyncHandler.new, job: true)
     job.call
-    assert_equal Setting.pass_number_count.to_i, 4
+    assert_equal Setting.instance.pass_number_count.to_i, 4
   end
 
   test 'should sync serving_number of every counter' do

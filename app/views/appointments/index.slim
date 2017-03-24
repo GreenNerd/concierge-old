@@ -16,7 +16,7 @@
       .operation-wrapper
         .appointments-count
           .counter-text 排队人数
-          .counter-value= Setting.wait_number_count
+          .counter-value= Setting.instance.wait_number_count
         .operation 在线排号
       .address= Setting::STATIONS.dig(:b, :address)
     .station-addition

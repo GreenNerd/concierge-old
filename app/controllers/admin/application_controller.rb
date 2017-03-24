@@ -6,6 +6,8 @@ class Admin::ApplicationController < ApplicationController
   private
 
   def authenticate
+    return if Rails.env.test?
+
     authenticate_or_request_with_http_digest do |username|
       if username == http_basic_authentication[:username]
         http_basic_authentication[:password]
