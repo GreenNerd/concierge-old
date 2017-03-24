@@ -49,7 +49,7 @@ class Setting < ApplicationRecord
     end
   end
 
-  def set_or_update_appoint_job
+  def set_or_update_appointment_reset_job
     return if avoid_scheduler?
 
     appointment_reset_job&.unschedule
