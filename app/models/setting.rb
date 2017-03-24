@@ -88,10 +88,10 @@ class Setting < ApplicationRecord
   end
 
   def sync_job
-    sync_job_id? && Rufus::Scheduler.singleton.job(sync_job_id)
+    sync_job_id && Rufus::Scheduler.singleton.job(sync_job_id)
   end
 
   def appointment_reset_job
-    appointment_reset_job_id? && Rufus::Scheduler.singleton.job(appointment_reset_job_id)
+    appointment_reset_job_id && Rufus::Scheduler.singleton.job(appointment_reset_job_id)
   end
 end
