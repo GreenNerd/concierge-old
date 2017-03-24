@@ -12,9 +12,6 @@ class Setting < ApplicationRecord
 
   cattr_accessor :setting
 
-  attribute :appoint_begin_at, :datetime
-  attribute :appoint_end_at, :datetime
-
   validates :advance_reservation_days, numericality: { only_integer: true, greater_than: 1 }
 
   after_update_commit :set_or_update_sync_job, if: lambda { |s| s.previous_changes.include?(:sync_interval) }
@@ -29,6 +26,14 @@ class Setting < ApplicationRecord
   def self.warmup
     instance.set_or_update_appointment_reset_job
     instance.set_or_update_sync_job
+  end
+
+  def appoint_begin_at
+    Time.zone.parse read_attribute(:appoint_begin_at).to_s
+  end
+
+  def appoint_end_at
+    Time.zone.parse read_attribute(:appoint_end_at).to_s
   end
 
   def wait_number_count
