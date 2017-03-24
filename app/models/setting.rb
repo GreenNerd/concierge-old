@@ -29,12 +29,12 @@ class Setting < ApplicationRecord
     instance.set_or_update_sync_job
   end
 
-  def appoint_begin_at
-    Time.zone.parse read_attribute(:appoint_begin_at).to_s
+  def cast_appoint_begin_at
+    Time.zone.parse appoint_begin_at.to_s
   end
 
-  def appoint_end_at
-    Time.zone.parse read_attribute(:appoint_end_at).to_s
+  def cast_appoint_end_at
+    Time.zone.parse appoint_end_at.to_s
   end
 
   def wait_number_count
@@ -58,10 +58,10 @@ class Setting < ApplicationRecord
 
     appointment_reset_job&.unschedule
 
-    if appoint_begin_at?
-      if appoint_begin_at.past?
-        first_at = if appoint_end_at && Time.zone.now > appoint_end_at
-                     appoint_begin_at.tomorrow
+    if cast_appoint_begin_at
+      if cast_appoint_begin_at.past?
+        first_at = if cast_appoint_end_at && Time.zone.now > cast_appoint_end_at
+                     cast_appoint_begin_at.tomorrow
                    else
                      :now
                    end
@@ -74,10 +74,10 @@ class Setting < ApplicationRecord
   end
 
   def in_window_time?
-    return unless appoint_begin_at.present?
-    return unless appoint_end_at.present?
+    return unless cast_appoint_begin_at.present?
+    return unless cast_appoint_end_at.present?
 
-    appoint_begin_at <= Time.zone.now && Time.zone.now <= appoint_end_at
+    cast_appoint_begin_at <= Time.zone.now && Time.zone.now <= cast_appoint_end_at
   end
 
   def avoid_scheduler?
