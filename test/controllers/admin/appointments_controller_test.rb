@@ -21,22 +21,21 @@ class Admin::AppointmentsControllerTest < ActionDispatch::IntegrationTest
 
     @business_category = FactoryGirl.create :business_category
     @appointment = FactoryGirl.create :appointment, business_category: @business_category
-    @admin_headers = { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('admin', 'secret') }
   end
 
   test 'should get index' do
-    get admin_appointments_url, headers: @admin_headers
+    get admin_appointments_url
     assert_response :success
   end
 
   test 'should show admin_appointment' do
-    get admin_appointment_url(@appointment), headers: @admin_headers
+    get admin_appointment_url(@appointment)
     assert_response :success
   end
 
   test 'should destroy admin_appointment' do
     assert_difference('Appointment.count', -1) do
-      delete admin_appointment_url(@appointment), headers: @admin_headers
+      delete admin_appointment_url(@appointment)
     end
 
     assert_redirected_to admin_appointments_url

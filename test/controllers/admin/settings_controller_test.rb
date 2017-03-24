@@ -3,21 +3,20 @@ require 'test_helper'
 class Admin::SettingsControllerTest < ActionDispatch::IntegrationTest
   setup do
     FactoryGirl.create :setting
-    @admin_headers = { 'HTTP_AUTHORIZATION' => ActionController::HttpAuthentication::Basic.encode_credentials('admin', 'secret') }
   end
 
   test 'should get show successfully' do
-    get admin_settings_url, headers: @admin_headers
+    get admin_settings_url
     assert_response :success
   end
 
   test 'should show settings' do
-    get admin_settings_url, headers: @admin_headers
+    get admin_settings_url
     assert_select 'title', '设置-在线排号系统'
   end
 
   test 'should show display the inst_no' do
-    get admin_settings_url, headers: @admin_headers
+    get admin_settings_url
     assert_select 'div', '网点编号'
   end
 
@@ -26,7 +25,6 @@ class Admin::SettingsControllerTest < ActionDispatch::IntegrationTest
 
     patch admin_settings_url,
       params: { setting: { term_no: new_term_no } },
-      headers: @admin_headers,
       xhr: true
 
     assert_equal new_term_no, Setting.instance.reload.term_no
