@@ -24,6 +24,7 @@ class Setting < ApplicationRecord
   end
 
   def self.warmup
+    instance.update_columns sync_job_id: nil, appointment_reset_job_id: nil
     instance.set_or_update_appointment_reset_job
     instance.set_or_update_sync_job
   end
