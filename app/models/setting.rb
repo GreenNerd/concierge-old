@@ -33,7 +33,7 @@ class Setting < ApplicationRecord
   end
 
   def self.warmup
-    instance.set_or_update_appoint_job
+    instance.set_or_update_appointment_reset_job
     instance.set_or_update_sync_job
   end
 
