@@ -59,13 +59,15 @@ class Setting < ApplicationRecord
     appointment_reset_job&.unschedule
 
     if cast_appoint_begin_at
-      if cast_appoint_begin_at.past?
-        first_at = if cast_appoint_end_at && Time.zone.now > cast_appoint_end_at
+      first_at = if cast_appoint_begin_at.past?
+                   if cast_appoint_end_at && Time.zone.now > cast_appoint_end_at
                      cast_appoint_begin_at.tomorrow
                    else
                      :now
                    end
-      end
+                 else
+                   cast_appoint_begin_at
+                 end
 
       update appointment_reset_job_id: Rufus::Scheduler.singleton.every('1d'.freeze, AppointmentResetHandler.new, first_at: first_at)
     else
