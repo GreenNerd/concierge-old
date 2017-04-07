@@ -60,11 +60,11 @@ class Setting < ApplicationRecord
 
     if cast_appoint_begin_at
       first_at = if cast_appoint_begin_at.past?
-                   if cast_appoint_end_at && Time.zone.now > cast_appoint_end_at
-                     cast_appoint_begin_at.tomorrow
-                   else
-                     :now
+                   unless cast_appoint_end_at && Time.zone.now > cast_appoint_end_at
+                     Rufus::Scheduler.singleton.at(Time.now, AppointmentResetHandler.new)
                    end
+
+                   cast_appoint_begin_at.tomorrow
                  else
                    cast_appoint_begin_at
                  end
