@@ -69,13 +69,14 @@ class MachineService
                       .deep_transform_keys { |key| key.to_s.underscore.to_sym }
         return rsp_hsh if rsp_hsh.dig(:package, :rsp_code) == '0'.freeze
       end
-    rescue Exception => e
+    rescue => e
+      Rails.logger.warn "MachineServiceError: #{retries} #{url}(#{e})"
+
       retries -= 1
 
       if retries > 0
         retry
       else
-        Rails.logger.warn "MachineServiceError: #{url}(#{e})"
         return
       end
     end
