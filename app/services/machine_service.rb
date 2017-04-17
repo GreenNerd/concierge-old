@@ -62,7 +62,6 @@ class MachineService
 
   def post_with(url, payload, retries: 3)
     begin
-      rsp = RestClient.post url, payload, content_type: :xml
       rsp = RestClient::Request.execute method: :post, url: url, payload: payload, headers: { content_type: :xml }, timeout: 5
 
       if rsp.code == 200
